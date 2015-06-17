@@ -6,7 +6,7 @@
 
   - __Product Owner__: teamMember
   - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Development Team Members__: teamMember, Liam Gallivan
 
 ## Table of Contents
 
