@@ -14,7 +14,7 @@ io.on('connection', function(socket) {
     console.log('Client connected...');
     console.log(socket);
     socket.broadcast.emit('user broadcasted');
-    
+
     socket.on('disconnect', function() {
       io.emit('user disconnected'); //custom event
     });

@@ -1,3 +1,4 @@
-io.on('connection', function (socket) {
-  socket.broadcast.emit('user connected');
+var socket = io();
+socket.on('user broadcasted', function() {
+  console.log('detected someone broadcasted');
 });
