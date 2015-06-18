@@ -12,6 +12,7 @@ app.use(express.static(__dirname + '/../client'));
 
 io.on('connection', function(client) {
     console.log('Client connected...');
+    console.log(client);
 });
 
 server.listen(port);
