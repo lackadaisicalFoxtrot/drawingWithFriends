@@ -1,0 +1,30 @@
+{
+  "name": "drawingWithFriends",
+  "version": "0.0.1",
+  "homepage": "https://github.com/lackadaisicalFoxtrot/drawingWithFriends",
+  "authors": [
+    "James Robinson",
+    "Xue Hu",
+    "Liam Gallivan",
+    "Medhir Bhargava"
+  ],
+  "description": "Collaborative drawing tool",
+  "keywords": [
+    "drawing",
+    "d3",
+    "collaboration"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "underscore": "~1.8.3",
+    "backbone": "~1.2.1"
+  }
+}
