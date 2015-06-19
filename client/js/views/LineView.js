@@ -29,3 +29,24 @@ app.LineView = Backbone.View.extend({
   }
 
 });
+
+/*
+
+Instantiating a LineView
+---------------------------------------------------
+--> Pass in a LineModel, and the SVG container that the line will be appended to
+
+  var line = new LineView({
+    model: NewLineModel, 
+    container: d3.select('svg')
+  })
+
+  or
+  
+  var svg = d3.select('svg');
+  var line = new LineView({
+    model: NewLineModel,
+    container: svg
+  })
+
+*/
