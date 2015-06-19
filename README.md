@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/lackadaisicalFoxtrot/drawingWithFriends.png?label=ready&title=Ready)](https://waffle.io/lackadaisicalFoxtrot/drawingWithFriends)
 # drawingWithFriends
 
 > Live, collaborative drawing app
