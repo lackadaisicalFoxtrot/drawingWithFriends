@@ -60,3 +60,20 @@ app.PictureView = Backbone.View.extend({
     this.activeLine = undefined;
   }
 });
+
+
+/*
+
+Instantiating a PictureView
+---------------------------------------------------
+--> Pass in a PictureModel, the DOM element it will be appended to, 
+    width, and height
+
+  var picture = new app.PictureView({
+    model: pictureData, 
+    container: d3.select('body'),
+    width: '500px', 
+    height: '500px'
+  });
+
+*/
