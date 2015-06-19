@@ -3,7 +3,7 @@
 
 var app = app || {};
 
-// $(function() {
+$(function() {
 
   // Kick things off by creating the **App**.
   // new app.AppView();
@@ -20,4 +20,4 @@ var app = app || {};
     height: '960px'
   });
 
-// });
+});

@@ -21,17 +21,19 @@ app.PictureView = Backbone.View.extend({
                 .on("dragstart", this.dragStarted.bind(this))
                 .on("drag", this.drag.bind(this))
                 .on("dragend", this.dragended.bind(this)));
-    this.context = this;
 	},
 
   dragStarted: function() {
     console.log('drag started');
     //create a line model
     this.activeLine = new app.LineModel();
-    this.newLine = new app.LineView({
+
+    //instantiate new LineView 
+    new app.LineView({
       model: this.activeLine, 
       container: this.d3
     });
+
     //add that line model to collection
     var lines = this.model.get('lines');
     lines.add(this.activeLine);
@@ -39,9 +41,16 @@ app.PictureView = Backbone.View.extend({
 
   drag: function() {
     console.log('drag');
-    //add data to activeLine
-    var coordinates = this.activeLine.get('coordinates');
+    //add data to activeLine by...
+
+    //create a new copy of the array
+    var coordinates = this.activeLine.get('coordinates').slice();
+
     coordinates.push(d3.mouse(this.el));
+
+    //set coordinates property of the LineModel. 
+    //This will emit a change event on the model, causing the line to re-render.
+    //Adding elements to the existing coordinates array will not emit an event. 
     this.activeLine.set('coordinates', coordinates);
   }, 
 
@@ -51,16 +60,3 @@ app.PictureView = Backbone.View.extend({
     this.activeLine = undefined;
   }
 });
-
-
-// events: {
-// 	//"update to collection" : "this.render()"
-// 	//seems like an alternate way to do event listener in initialize
-// 	//not sure which one is better
-// },
-
-//***// could also be <rect style="fill:#fff;" width="100%" height="100%"></rect>
-//not wsure if it works this way however
-
-
-//collection will contian data on lines
