@@ -3,38 +3,77 @@
 var app = app || {};
 
 app.PictureView = Backbone.View.extend({
+	tagName: 'svg',
+	className: 'canvas',
 
-	tagName: "svg",
+  activeLine: undefined,
 
-	className: "canvas",
-
-	initialize: function(){
-		this.render();
-		//or could be...
-		//this.listenTo(this.collection, "change", this.render);
+	initialize: function(options){
+    //initialize the view
+    this.d3 = options.container
+                .append(this.tagName)
+                .attr({
+                  'class': this.tagName,
+                  width: options.width, 
+                  height: options.height
+                })
+                .call(d3.behavior.drag()
+                .on("dragstart", this.dragStarted.bind(this))
+                .on("drag", this.drag.bind(this))
+                .on("dragend", this.dragended.bind(this)));
 	},
 
-	
-	events: {
-		//"update to collection" : "this.render()"
-		//seems like an alternate way to do event listener in initialize
-		//not sure which one is better
-	},
+  dragStarted: function() {
+    console.log('drag started');
+    //create a line model
+    this.activeLine = new app.LineModel();
 
-	render: function(){
-		return this.$el.html(/**/'<rect></rect>').append(
-			//this.collection should be LineModel Collection
-			this.collection.map(function(line){
-				//return new LineView({model: line}).render()
-			})
-		);
-	}
+    //instantiate new LineView 
+    new app.LineView({
+      model: this.activeLine, 
+      container: this.d3
+    });
 
+    //add that line model to collection
+    var lines = this.model.get('lines');
+    lines.add(this.activeLine);
+  }, 
 
+  drag: function() {
+    console.log('drag');
+    //add data to activeLine by...
+
+    //create a new copy of the array
+    var coordinates = this.activeLine.get('coordinates').slice();
+
+    coordinates.push(d3.mouse(this.el));
+
+    //set coordinates property of the LineModel. 
+    //This will emit a change event on the model, causing the line to re-render.
+    //Adding elements to the existing coordinates array will not emit an event. 
+    this.activeLine.set('coordinates', coordinates);
+  }, 
+
+  dragended: function() {
+    console.log('dragend');
+    //set activeLine to nothing
+    this.activeLine = undefined;
+  }
 });
 
-//***// could also be <rect style="fill:#fff;" width="100%" height="100%"></rect>
-//not wsure if it works this way however
 
+/*
 
-//collection will contian data on lines
+Instantiating a PictureView
+---------------------------------------------------
+--> Pass in a PictureModel, the DOM element it will be appended to, 
+    width, and height
+
+  var picture = new app.PictureView({
+    model: pictureData, 
+    container: d3.select('body'),
+    width: '500px', 
+    height: '500px'
+  });
+
+*/
