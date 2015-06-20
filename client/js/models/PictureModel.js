@@ -17,9 +17,9 @@ app.PictureModel = Backbone.Model.extend({
   },
   updateLines: function(data) {
     var otherLine = this.get('lines').findWhere({id: data.id}); //another user's line
-    if (otherLine) {
+    if (otherLine) { //another user is continuing their line that we've seen already
       otherLine.set('coordinates', data.coords);
-    } else {
+    } else {//the other user's line first appears on our canvas
       //TODO put this elsewhere like the line collection?
       //I don't like how everything has access to the global app--can we encapsulate better?
       this.get('lines').add(new app.LineModel({coordinates: data.coords}));

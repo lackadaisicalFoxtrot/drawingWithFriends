@@ -23,7 +23,7 @@ app.PictureView = Backbone.View.extend({
                 .on("dragend", this.dragended.bind(this)));
 
     this.model.get('lines').on('add', function() {
-      console.log('render called')
+      console.log('render called');
       //this.render();
     }, this);
 
@@ -50,6 +50,7 @@ app.PictureView = Backbone.View.extend({
     this.model.addLine(this.activeLine);
     //TODO did this make the drawing slower/less accurate?
 
+    //client side hashing thing if we want to try
     //hasherino(function(id) {
       //this.activeLine.set('id', id);
     //}.bind(this));
@@ -67,6 +68,8 @@ app.PictureView = Backbone.View.extend({
     //TODO push coordinates or just the updated coord? would be better to just send new data
     //but would have to add logic
     socket.emit('user moved', {id: this.activeLine.get('id'), coords: coordinates});
+    //TODO id: will always be null. we never get the data the server transmits (the data that has an id now) and attach the data to the line model in bb
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //set coordinates property of the LineModel. 
     //This will emit a change event on the model, causing the line to re-render.

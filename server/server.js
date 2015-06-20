@@ -17,12 +17,15 @@ io.on('connection', function(socket) {
       console.log('a user drew. their data: ', data);
       //now save the data to a bookshelf collection of lines ie a picture
       //that persists here. when the pic is done save() to the db
-      util.serverId(function(id) {
-        data.id = id;
-        socket.broadcast.emit('user moved', data);
-        //broadcast with a particular id
-      });
-
+      if (data.id) { //server has seen line before, it is an existing line someone is drawing
+       //do something 
+      } else { //this is the start of a new line
+        util.serverId(function(id) {
+          data.id = id;
+          //broadcast with a particular id
+        });
+      }
+      socket.broadcast.emit('user moved', data);
 
     });
     socket.on('disconnect', function() {
