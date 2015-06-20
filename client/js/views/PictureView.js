@@ -71,6 +71,8 @@ app.PictureView = Backbone.View.extend({
     //TODO push coordinates or just the updated coord? would be better to just send new data
     //but would have to add logic
     socket.emit('user moved', {id: this.activeLine.get('id'), coords: coordinates});
+    //TODO id: will always be null. we never get the data the server transmits (the data that has an id now) and attach the data to the line model in bb
+    //!!!!!!!!!!!!!!!!!!!!!!!!!
 
     //set coordinates property of the LineModel. 
     //This will emit a change event on the model, causing the line to re-render.
