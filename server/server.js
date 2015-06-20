@@ -13,12 +13,17 @@ server.listen(port);
 
 app.use(express.static(__dirname + '/../client'));
 io.on('connection', function(socket) {
-    console.log('Client connected...');
-    console.log(socket);
-    socket.broadcast.emit('user broadcasted');
     socket.on('user moved', function(data) {
-      console.log('a user moved. their coords: ', data);
-      socket.broadcast.emit('user moved', data);
+      console.log('a user drew. their data: ', data);
+      //now save the data to a bookshelf collection of lines ie a picture
+      //that persists here. when the pic is done save() to the db
+      util.serverId(function(id) {
+        data.id = id;
+        socket.broadcast.emit('user moved', data);
+        //broadcast with a particular id
+      });
+
+
     });
     socket.on('disconnect', function() {
       io.emit('user disconnected'); //custom event

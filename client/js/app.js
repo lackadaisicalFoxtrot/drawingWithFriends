@@ -11,7 +11,7 @@ $(function() {
   var body = d3.select('body');
 
   var data = new app.PictureModel({
-    lines: new app.LineCollection()
+    //lines: new app.LineCollection()
   });
   var picture = new app.PictureView({
     model: data, 

@@ -6,7 +6,8 @@ app.LineModel = Backbone.Model.extend({
 
   //create a coordinates array on instantiation
   defaults: {
-    coordinates: []
+    coordinates: [],
+    id: null
   },
 
   //trigger an event on drag event that updates the path. 
