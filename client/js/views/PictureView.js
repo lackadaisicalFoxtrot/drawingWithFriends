@@ -22,14 +22,18 @@ app.PictureView = Backbone.View.extend({
                 .on("drag", this.drag.bind(this))
                 .on("dragend", this.dragended.bind(this)));
 
+    socket.on('user moved', function(data) {
+      console.log('another user moved: ', data);
+      this.updateLines(data);
+    }.bind(this));
+
     this.model.get('lines').on('add', function() {
-      console.log('render called')
+      console.log('render called', this);
       //this.render();
     }, this);
 
 	},
-  render: function() {
-  },
+
   dragStarted: function() {
     console.log('drag started');
     //create a line model
@@ -50,9 +54,9 @@ app.PictureView = Backbone.View.extend({
     this.model.addLine(this.activeLine);
     //TODO did this make the drawing slower/less accurate?
 
-    //hasherino(function(id) {
-      //this.activeLine.set('id', id);
-    //}.bind(this));
+    hasherino(function(id) {
+      this.activeLine.set('id', id);
+    }.bind(this));
   }, 
 
   drag: function() {
@@ -78,9 +82,24 @@ app.PictureView = Backbone.View.extend({
     console.log('dragend');
     //set activeLine to nothing
     this.activeLine = undefined;
+  }, 
+
+  updateLines: function(data) {
+    var otherLine = this.model.get('lines').findWhere({id: data.id}); //another user's line
+    if (otherLine) {
+      otherLine.set('coordinates', data.coords);
+    } else {
+      var newline = new app.LineModel({id: data.id, coordinates: data.coords});
+
+      //instantiate view 
+      new app.LineView({
+        model: newline, 
+        container: this.d3
+      });
+
+      this.model.addLine(newline);
+    }
   }
-  //TODO can we have a render here or in the line view?
-  //that way we can call it whenever new lines are added.
 });
 
 

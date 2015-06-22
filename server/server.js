@@ -17,18 +17,19 @@ io.on('connection', function(socket) {
       console.log('a user drew. their data: ', data);
       //now save the data to a bookshelf collection of lines ie a picture
       //that persists here. when the pic is done save() to the db
-      util.serverId(function(id) {
-        data.id = id;
-        socket.broadcast.emit('user moved', data);
-        //broadcast with a particular id
-      });
+      // util.serverId(function(id) {
+      //   data.id = id;
+      //   socket.broadcast.emit('user moved', data);
+      //   //broadcast with a particular id
+      // });
 
-
+      socket.broadcast.emit('user moved', data);
     });
     socket.on('disconnect', function() {
       io.emit('user disconnected'); //custom event
     });
 });
+
 app.route('/gallery')
 	.get(function(req,res,next){
 		var results = [];
