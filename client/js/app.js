@@ -4,6 +4,7 @@
 var app = app || {};
 
 $(function() {
+  //TODO can these be put in the view please
   $('.item').toggle();
   //TODO these can be grouped together
   $('.menu-li').on('click',function(event){

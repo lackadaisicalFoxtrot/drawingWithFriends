@@ -6,7 +6,11 @@ app.LineCollection = Backbone.Collection.extend({
   model: app.LineModel,
 
   initialize: function() {
-    socket.on('user moved', function(data) {
+    socket.on('connected', function(lines) { //lines/datas
+      debugger;
+      this.set(lines);
+    }.bind(this));
+    socket.on('user moved', function(data) { //data is line for these cbs
       console.log('another user moved: ', data);
       this.updateLines(data);
     }.bind(this));
@@ -16,13 +20,13 @@ app.LineCollection = Backbone.Collection.extend({
     }.bind(this));
   },
 
-  updateLines: function(data) { //if no data.coords are sent, means close the line. this fn could use some refactoring TODO
+  updateLines: function(data) { //if no data.coordinates are sent, means close the line. this fn could use some refactoring TODO
     var otherLine = this.findWhere({id: data.id}); //another user's line we've already seen (they're still drawing their line or close the line)
-    if (data.coords) {
+    if (data.coordinates) {
       if (otherLine) {
-        otherLine.set('coordinates', data.coords);
+        otherLine.set('coordinates', data.coordinates);
       } else { //another user's line we haven't seen yet (they just started making the line)
-        var newline = new app.LineModel({id: data.id, coordinates: data.coords});
+        var newline = new app.LineModel({id: data.id, coordinates: data.coordinates});
 
         this.add(newline);
       }

@@ -14,12 +14,13 @@ app.LineModel = Backbone.Model.extend({
     coordinates.push(coord);
     //TODO push coordinates or just the updated coord? would be better to just send new data
     //but would have to add logic
-    socket.emit('user moved', {id: this.get('id'), coords: coordinates});
 
     //set coordinates property of the LineModel. 
     //This will emit a change event on the model, causing the line to re-render.
     //Adding elements to the existing coordinates array will not emit an event. 
     this.set('coordinates', coordinates);
+    socket.emit('user moved', {id: this.get('id'), coordinates: this.get('coordinates')});
+    //ie send all this.attributes?
 
   },
   endLine: function() {
