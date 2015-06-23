@@ -1,4 +1,5 @@
 // views/LineView.js
+// TODO refactor
 
 var app = app || {};
 
@@ -9,9 +10,9 @@ app.LineView = Backbone.View.extend({
   initialize: function(options) {
     //initialize the view with the data from LineModel, append it to parent container
     this.d3 = options.container
-                .append(this.tagName)
-                .datum(this.model.get('coordinates'))
-                .attr('class', this.className);
+    .append(this.tagName)
+    .datum(this.model.get('coordinates'))
+    .attr('class', this.className);
 
     //listen for changes on the model to re-render line
     this.model.on('change', this.renderPath, this);
@@ -19,9 +20,9 @@ app.LineView = Backbone.View.extend({
 
   //d3 line rendering logic
   svgLine: d3.svg.line()
-             .x(function(d) { return d[0]; })
-             .y(function(d) { return d[1]; })
-             .interpolate('basis'),
+  .x(function(d) { return d[0]; })
+  .y(function(d) { return d[1]; })
+  .interpolate('basis'),
 
   renderPath: function() {
     this.d3.datum(this.model.get('coordinates'));
@@ -32,21 +33,21 @@ app.LineView = Backbone.View.extend({
 
 /*
 
-Instantiating a LineView
----------------------------------------------------
---> Pass in a LineModel, and the SVG container that the line will be appended to
+   Instantiating a LineView
+   ---------------------------------------------------
+   --> Pass in a LineModel, and the SVG container that the line will be appended to
 
-  var line = new LineView({
-    model: NewLineModel, 
-    container: d3.select('svg')
-  })
+   var line = new LineView({
+model: NewLineModel, 
+container: d3.select('svg')
+})
 
-  or
-  
-  var svg = d3.select('svg');
-  var line = new LineView({
-    model: NewLineModel,
-    container: svg
-  })
+or
+
+var svg = d3.select('svg');
+var line = new LineView({
+model: NewLineModel,
+container: svg
+})
 
 */

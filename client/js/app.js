@@ -8,16 +8,7 @@ $(function() {
   // Kick things off by creating the **App**.
   // new app.AppView();
 
-  var body = d3.select('body');
-
-  var data = new app.PictureModel({
-    //lines: new app.LineCollection()
-  });
-  var picture = new app.PictureView({
-    model: data, 
-    container: body, 
-    width: '960px', 
-    height: '960px'
-  });
+  var appModel = new app.AppModel();
+  var appView = new app.AppView({model: appModel});
 
 });

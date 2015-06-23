@@ -4,14 +4,28 @@ var app = app || {};
 
 app.LineModel = Backbone.Model.extend({
 
-  //create a coordinates array on instantiation
   defaults: {
     coordinates: [],
     id: null //don't really need this explicitly. for clarity only
   },
 
-  //trigger an event on drag event that updates the path. 
-  //updatePath : function() {
-    //this.trigger('updatePath', this);
-  //}
+  updateLine: function(coord) {
+    var coordinates = this.get('coordinates').slice();
+    coordinates.push(coord);
+    //TODO push coordinates or just the updated coord? would be better to just send new data
+    //but would have to add logic
+    socket.emit('user moved', {id: this.get('id'), coords: coordinates});
+
+    //set coordinates property of the LineModel. 
+    //This will emit a change event on the model, causing the line to re-render.
+    //Adding elements to the existing coordinates array will not emit an event. 
+    this.set('coordinates', coordinates);
+
+  },
+  endLine: function() {
+    //fix for overwriting lines. allows hash to reuse that id again
+    socket.emit('user ended', {id: this.get('id')}); //the line collection hears this
+    this.set('id', null);
+  }
+
 });
