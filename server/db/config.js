@@ -1,21 +1,21 @@
 var path = require('path');
+
 var knex = require('knex')({
   client : 'mysql',
   connection : {
     host : '127.0.0.1',
     user : 'root',
-    password : '123',
-    database : 'pictureDB',
+    //password : '123',
+    database : 'test', //for now, or making a schema to make a custom local db/open sql to make
     charset : 'utf8',
-    filename: path.join(__dirname, './pictureDB.sql')
   }
 });
 
 var bookshelf = require('bookshelf')(knex);
 
-bookshelf.knex.schema.hasTable('pictures').then(function (exists) {
+bookshelf.knex.schema.hasTable('Picture').then(function (exists) {
   if (!exists) {
-    bookshelf.knex.schema.createTable('pictures', function (picture) {
+    bookshelf.knex.schema.createTable('Picture', function (picture) {
       picture.increments('id').primary();
       picture.timestamps();
     }).then(function (table) {
@@ -23,9 +23,9 @@ bookshelf.knex.schema.hasTable('pictures').then(function (exists) {
     });
   }
 });
-bookshelf.knex.schema.hasTable('lines').then(function (exists) {
+bookshelf.knex.schema.hasTable('Line').then(function (exists) {
   if (!exists) {
-    bookshelf.knex.schema.createTable('lines', function (line) {
+    bookshelf.knex.schema.createTable('Line', function (line) {
       line.increments('id').primary();
       line.string('d', 100000);
       line.integer('picture_id');

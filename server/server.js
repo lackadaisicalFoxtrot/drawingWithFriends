@@ -1,6 +1,6 @@
 var express = require('express');
 var util = require('./utils');
-//var db = require('./db/config');
+var db = require('./db/config');
 //var Lines =require('./db/collections/lines');
 //var Pictures =require('./db/collections/pictures');
 
