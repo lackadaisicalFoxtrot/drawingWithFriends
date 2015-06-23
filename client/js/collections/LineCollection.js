@@ -14,10 +14,6 @@ app.LineCollection = Backbone.Collection.extend({
       console.log('another user ended their line: ', data);
       this.updateLines(data);
     }.bind(this));
-
-    //this.on('add', function() {
-      //this.render();
-    //});
   },
 
   updateLines: function(data) { //if no data.coords are sent, means close the line. this fn could use some refactoring TODO

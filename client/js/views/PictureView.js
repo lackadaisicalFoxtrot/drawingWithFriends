@@ -6,8 +6,6 @@ app.PictureView = Backbone.View.extend({
   tagName: 'svg',
   className: 'canvas',
 
-  //activeLine: undefined,
-
   initialize: function(options){
     this.render(options);
     this.model.get('lines').on('add', function(line) {
