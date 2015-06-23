@@ -28,6 +28,9 @@ io.on('connection', function(socket) {
       //socket.broadcast.emit('user moved', data);
       socket.broadcast.emit('user moved', data);
     });
+    socket.on('user ended', function(data) {
+      socket.broadcast.emit('user ended', data);
+    });
     socket.on('disconnect', function() {
       io.emit('user disconnected'); //custom event
     });
