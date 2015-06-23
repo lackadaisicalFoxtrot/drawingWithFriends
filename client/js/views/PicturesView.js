@@ -5,7 +5,7 @@ var app = app || {};
 app.PicturesView = Backbone.View.extend({
   el : $('ul.gallery-list'),
   collection : app.PicturesCollection,
-  modelView : app.PictureView,
+  modelView : app.PictureView, //TODO I think you only need the collection.
 
   initialize : function() {
     this.render();
