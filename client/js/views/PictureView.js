@@ -15,6 +15,7 @@ app.PictureView = Backbone.View.extend({
 
   renderLine: function(line) {
     //instantiate new LineView 
+    //console.log('add event triggered');
     new app.LineView({
       model: line,
       container: this.d3

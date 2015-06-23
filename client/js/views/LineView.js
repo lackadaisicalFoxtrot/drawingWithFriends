@@ -9,10 +9,9 @@ app.LineView = Backbone.View.extend({
 
   initialize: function(options) {
     //initialize the view with the data from LineModel, append it to parent container
-    this.d3 = options.container
-    .append(this.tagName)
-    .datum(this.model.get('coordinates'))
-    .attr('class', this.className);
+    //TODO refactor into 1 render
+    this.render(options);
+    this.renderPath();
 
     //listen for changes on the model to re-render line
     this.model.on('change', this.renderPath, this);
@@ -23,6 +22,13 @@ app.LineView = Backbone.View.extend({
   .x(function(d) { return d[0]; })
   .y(function(d) { return d[1]; })
   .interpolate('basis'),
+
+  render: function(options) {
+    this.d3 = options.container
+    .append(this.tagName)
+    .datum(this.model.get('coordinates'))
+    .attr('class', this.className);
+  },
 
   renderPath: function() {
     this.d3.datum(this.model.get('coordinates'));
