@@ -12,6 +12,7 @@ app.PictureView = Backbone.View.extend({
       this.renderLine(line);
     }, this);
   },
+
   renderLine: function(line) {
     //instantiate new LineView 
     new app.LineView({
@@ -21,7 +22,9 @@ app.PictureView = Backbone.View.extend({
   },
 
   getMouse: function() {
-    return d3.mouse(this.el);
+    //pass in the d3 node so that it gets coordinates relative to the
+    //SVG element, rather than relative to the entire page
+    return d3.mouse(this.d3.node());
   },
 
   render: function(options) {
