@@ -6,3 +6,15 @@
   stroke-linejoin: round;
   stroke-linecap: round;
 }
+.nav{
+	float: left;
+}
+.container{
+	text-align: center;
+}
+.canvas {
+	float:left;
+	border: 5px solid #222;
+	height:500px;
+	width:500px;
+}

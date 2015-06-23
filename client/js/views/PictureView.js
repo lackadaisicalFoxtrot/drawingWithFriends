@@ -13,7 +13,7 @@ app.PictureView = Backbone.View.extend({
     this.d3 = options.container
                 .append(this.tagName)
                 .attr({
-                  'class': this.tagName,
+                  'class': this.className,
                   width: options.width, 
                   height: options.height
                 })
@@ -47,7 +47,7 @@ app.PictureView = Backbone.View.extend({
 
     //instantiate new LineView 
     new app.LineView({
-      model: this.activeLine, 
+      model: this.activeLine,
       container: this.d3
     });
 
@@ -70,7 +70,6 @@ app.PictureView = Backbone.View.extend({
 
     //create a new copy of the array
     var coordinates = this.activeLine.get('coordinates').slice();
-
     var coord = d3.mouse(this.el);
     coordinates.push(coord);
     //TODO push coordinates or just the updated coord? would be better to just send new data
