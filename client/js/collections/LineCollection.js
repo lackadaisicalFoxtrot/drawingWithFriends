@@ -7,7 +7,6 @@ app.LineCollection = Backbone.Collection.extend({
 
   initialize: function() {
     socket.on('connected', function(lines) { //lines/datas
-      debugger;
       this.set(lines);
     }.bind(this));
     socket.on('user moved', function(data) { //data is line for these cbs
