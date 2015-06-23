@@ -7,11 +7,11 @@ app.LineModel = Backbone.Model.extend({
   //create a coordinates array on instantiation
   defaults: {
     coordinates: [],
-    id: null
+    id: null //don't really need this explicitly. for clarity only
   },
 
   //trigger an event on drag event that updates the path. 
-  updatePath : function() {
-    this.trigger('updatePath', this);
-  }
+  //updatePath : function() {
+    //this.trigger('updatePath', this);
+  //}
 });

@@ -1,4 +1,4 @@
-//this is just some random hashing shit for now. unused
+//this is just some random hashing shit for now. it doesn't work very well.
 var hasherino = function(cb) {
 
   var hashCode = function(rand){
