@@ -27,7 +27,7 @@ app.PictureView = Backbone.View.extend({
   },
 
   render: function(options) {
-
+    //TODO all these d3 elems could probably be refactored to be more like $el--attempted but views didn't render correctly
     this.d3 = options.container
     .append(this.tagName)
     .attr({
