@@ -52,9 +52,16 @@ var savePictureAndReset = function(socket) {
 };
 
 io.on('connection', function(socket) {
-  socket.emit('connected', Lines); //send the server lines to the socket to be drawn
+  //socket.emit('connected', Lines); //send the server lines to the socket to be drawn
+  socket.on('get lines', function() { //user has requested the lines because the picture view is rendering
+    socket.emit('got lines', Lines); //send the lines every time the user requests it
+    //TODO make sure this is socket specific and not broadcasted to everyone
+  });
   socket.on('user moved', function(data) {
     console.log('a user drew. their data: ', data); //TODO send model.toJSON() as data to server from client, cleaner?
+    //TODO the hashing needs to be much better for the server. the client drops the id upon dragend,
+    //but on the server we keep the id until we store it in the db which is much longer--thus we def
+    //need no collisions or we overwrite some lines
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
     //saveToDb();
     //if (!timerStarted) {

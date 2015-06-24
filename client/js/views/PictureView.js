@@ -11,6 +11,7 @@ app.PictureView = Backbone.View.extend({
     //TODO another listener for empty lines = delete all lineview subviews
     //we currently have no way to delete lineviews added
     //and we also only listen to additions of lines
+    socket.emit('get lines');
     this.model.get('lines').on('add', function(line) {
       this.renderLine(line);
     }, this);

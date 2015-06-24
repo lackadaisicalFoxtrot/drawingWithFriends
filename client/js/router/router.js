@@ -12,7 +12,6 @@ app.router = Backbone.Router.extend({
     //var body = d3.select('body');
     //var container = d3.select('.container');
     this.appModel = new app.AppModel(); //the 'app' is the drawing portion of the app
-    this.appView = new app.AppView({model: this.appModel});
     //always have the drawing app model in the bg
     //var data = new app.PictureModel({
         ////lines: new app.LineCollection()
@@ -25,6 +24,7 @@ app.router = Backbone.Router.extend({
   draw : function () {
     console.log('running main');
     $('.container').empty();
+    this.appView = new app.AppView({model: this.appModel});
     //render the view when user goes to draw tab
     //var picture = new app.PictureView({
         //model: data,
