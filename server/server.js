@@ -1,4 +1,3 @@
-var _ = require('underscore');
 var express = require('express');
 var util = require('./utils');
 var db = require('./db/config');
