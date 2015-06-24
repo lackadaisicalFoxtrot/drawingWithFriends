@@ -1,7 +1,8 @@
 var express = require('express');
 var util = require('./utils');
 var db = require('./db/config');
-var lines = require('./db/collections/lines');
+var Line = require('./db/models/line');
+var Lines = require('./db/collections/lines');
 //var Lines =require('./db/collections/lines');
 //var Pictures =require('./db/collections/pictures');
 
@@ -13,11 +14,19 @@ var port = 8080;
 server.listen(port);
 
 app.use(express.static(__dirname + '/../client'));
+//lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+var line = new Line({coordinates: JSON.stringify('coords')});
+line.save().then(function(res) { console.log('saved. ', res); });
+//debugger;
+//saveToDb();
 io.on('connection', function(socket) {
-    socket.emit('connected', lines); //send the server lines to the socket to be drawn
+    socket.emit('connected', Lines); //send the server lines to the socket to be drawn
     socket.on('user moved', function(data) {
       console.log('a user drew. their data: ', data);
-      lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+      Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+      //saveToDb();
+
+      //setTimeout(saveToDb, 1000*60*5); //save to db every 5 minutes. begin this timer when at least 1 person has started drawing
 
       //now save the data to a bookshelf collection of lines ie a picture
       //that persists here. when the pic is done save() to the db
@@ -40,6 +49,12 @@ io.on('connection', function(socket) {
       io.emit('user disconnected'); //custom event
     });
 });
+
+var saveToDb = function() {
+  Lines.save().then(function(res) {
+    console.log(res); //do we have to manually remove the ids so db can set its own ids?
+  });
+};
 
 app.route('/gallery')
 	.get(function(req,res,next){
