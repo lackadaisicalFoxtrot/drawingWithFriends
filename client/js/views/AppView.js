@@ -5,10 +5,10 @@ var app = app || {};
 
 app.AppView = Backbone.View.extend({
   initialize: function() {
-    // this.pictureView = new app.PictureView({
-    //   model: this.model.pictureModel,
-    //   container: d3.select('body')
-    // });
+     this.pictureView = new app.PictureView({
+       model: this.model.pictureModel,
+       container: d3.select('.container')
+     });
   }
 
 });

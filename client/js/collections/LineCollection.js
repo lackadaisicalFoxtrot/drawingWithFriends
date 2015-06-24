@@ -6,6 +6,7 @@ app.LineCollection = Backbone.Collection.extend({
   model: app.LineModel,
 
   initialize: function() {
+      this.set(lines);
     socket.on('connected', function(lines) { //lines/datas
       console.log('redraw all lines');
       this.set(lines);

@@ -18,7 +18,7 @@ $(function() {
   // Kick things off by creating the **App**.
   // new app.AppView();
 
-  var appModel = new app.AppModel();
-  var appView = new app.AppView({model: appModel});
+  //var appModel = new app.AppModel();
+  //var appView = new app.AppView({model: appModel});
 
 });

@@ -28,8 +28,8 @@ var savePictureAndReset = function(socket) {
   Lines.mapThen(function(model) {
     model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
     model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
-    return model.save().then(function() {
-      return model;
+    return model.save().then(function(res) {
+      return res;
     });
   }).then(function(res) {
     console.log('saved lines: ', res);
@@ -57,11 +57,11 @@ io.on('connection', function(socket) {
     console.log('a user drew. their data: ', data); //TODO send model.toJSON() as data to server from client, cleaner?
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
     //saveToDb();
-    if (!timerStarted) {
-      setTimeout(savePictureAndReset.bind(null, socket), 5000); //every 5 seconds
-      timerStarted = true;
-      console.log('started timer');
-    }
+    //if (!timerStarted) {
+      //setTimeout(savePictureAndReset.bind(null, socket), 5000); //every 5 seconds
+      //timerStarted = true;
+      //console.log('started timer');
+    //}
     //setTimeout(saveToDb, 1000*60*5); //save to db every 5 minutes. begin this timer when at least 1 person has started drawing
 
     //now save the data to a bookshelf collection of lines ie a picture
