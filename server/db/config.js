@@ -29,6 +29,7 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
       line.increments('id').primary();
       line.string('coordinates', 100000); //json
       line.integer('picture_id');
+      line.timestamps();
     }).then(function (line) {});
   }
 });
