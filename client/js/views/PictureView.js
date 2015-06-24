@@ -8,10 +8,6 @@ app.PictureView = Backbone.View.extend({
 
   initialize: function(options){
     this.render(options);
-    //TODO another listener for empty lines = delete all lineview subviews
-    //we currently have no way to delete lineviews added
-    //and we also only listen to additions of lines
-    socket.emit('get lines');
     this.model.get('lines').on('add', function(line) {
       this.renderLine(line);
     }, this);
@@ -20,8 +16,6 @@ app.PictureView = Backbone.View.extend({
   renderLine: function(line) {
     //instantiate new LineView 
     //console.log('add event triggered');
-    //
-    //TODO add a container for all these line subviews
     new app.LineView({
       model: line,
       container: this.d3

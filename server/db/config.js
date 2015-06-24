@@ -27,12 +27,9 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
   if (!exists) {
     bookshelf.knex.schema.createTable('Line', function (line) {
       line.increments('id').primary();
-      line.string('coordinates', 100000); //json
+      line.string('d', 100000);
       line.integer('picture_id');
-      line.timestamps();
-    }).then(function (table) {
-      console.log('Created table', table);
-    });
+    }).then(function (line) {});
   }
 });
 module.exports = bookshelf;
