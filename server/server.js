@@ -5,6 +5,9 @@ var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 //var Pictures =require('./db/collections/pictures');
 
+//timer functionality
+var Timer = require('timer-stopwatch');
+
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -13,7 +16,7 @@ server.listen(port);
 
 app.use(express.static(__dirname + '/../client'));
 
-var timerStarted = false;
+var timer = null;
 
 var savePictureAndReset = function(socket) {
   Lines.mapThen(function(model) {
@@ -29,44 +32,46 @@ var savePictureAndReset = function(socket) {
     timerStarted = false;
     console.log('set timer to false');
   });
-  //Lines is one picture
-  //Lines.invokeThen('save', null, options).then(function(res) {
-    //// ... all models in the collection have been saved
-    //console.log('saved. ', res);
-    //Lines.reset(); //clear the server lines after saving
-  //});
-  //Promise.all(Lines.invoke('save')).then(function(res) { //collection has no .save() method
-  //// collection models should now be saved...
-  //console.log('saved. ', res);
-  //});
 };
 
 io.on('connection', function(socket) {
-  //socket.emit('connected', Lines); //send the server lines to the socket to be drawn
+
   socket.on('get lines', function() { //user has requested the lines because the picture view is rendering
     socket.emit('got lines', Lines); //send the lines every time the user requests it
   });
+
+  socket.on('getTimer', function() {
+    if(timer === null) {
+      timer = new Timer(300000, { 
+          refreshRateMS: '5000', 
+          almostDoneMS: 290000
+        }); //set new timer for 5 minutes
+
+      timer.on('time', function(time) {
+        savePictureAndReset.bind(null, socket);
+      });
+
+      timer.on('done', saveToDb);
+
+      timer.start();
+    } 
+
+    io.emit('setTimer', { time: timer.ms }); //emit timer to client
+  });
+
   socket.on('user moved', function(data) {
     console.log('a user drew. their data: ', data); //TODO send model.toJSON() as data to server from client, cleaner?
-    //TODO the hashing needs to be much better for the server. the client drops the id upon dragend,
-    //but on the server we keep the id until we store it in the db which is much longer--thus we def
-    //need no collisions or we overwrite some lines
-    Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
-    //if (!timerStarted) {
-      //setTimeout(savePictureAndReset.bind(null, socket), 5000); //every 5 seconds
-      //timerStarted = true;
-      //console.log('started timer');
-    //}
-    //setTimeout(saveToDb, 1000*60*5); //save to db every 5 minutes. begin this timer when at least 1 person has started drawing
 
-    //if (data.id) { //server has seen line before, it is an existing line someone is drawing
-    ////do something 
-    //} else { //this is the start of a new line
-    //util.serverId(function(id) {
-    //data.id = id;
-    ////broadcast with a particular id
-    //});
-    //}
+    Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+
+    if (data.id) { //server has seen line before, it is an existing line someone is drawing
+    //do something 
+    } else { //this is the start of a new line
+      util.serverId(function(id) {
+      data.id = id;
+      //broadcast with a particular id
+    });
+
     socket.broadcast.emit('user moved', data);
   });
   socket.on('user ended', function(data) {
