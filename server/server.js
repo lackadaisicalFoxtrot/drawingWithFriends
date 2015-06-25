@@ -51,7 +51,10 @@ io.on('connection', function(socket) {
         savePictureAndReset.bind(null, socket);
       });
 
-      timer.on('done', saveToDb);
+      timer.on('done', function() {
+        //save entire picture to DB?
+        timer = null;
+      });
 
       timer.start();
     } 
@@ -64,16 +67,17 @@ io.on('connection', function(socket) {
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
 
-    if (data.id) { //server has seen line before, it is an existing line someone is drawing
-    //do something 
-    } else { //this is the start of a new line
-      util.serverId(function(id) {
-      data.id = id;
-      //broadcast with a particular id
-    });
+    // if (data.id) { //server has seen line before, it is an existing line someone is drawing
+    // //do something 
+    // } else { //this is the start of a new line
+    //   util.serverId(function(id) {
+    //   data.id = id;
+    //   //broadcast with a particular id
+    // });
 
     socket.broadcast.emit('user moved', data);
   });
+  
   socket.on('user ended', function(data) {
     socket.broadcast.emit('user ended', data);
     Lines.get({id: data.id}).set('id', null);
