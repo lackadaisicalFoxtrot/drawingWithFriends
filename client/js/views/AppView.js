@@ -6,9 +6,16 @@ var app = app || {};
 app.AppView = Backbone.View.extend({
   initialize: function() {
      this.pictureView = new app.PictureView({
-       model: this.model.pictureModel,
+       model: new app.PictureModel(),
        container: d3.select('.container')
      });
+
+     this.timerView = new app.TimerView({
+      model: new app.TimerModel()
+     });
+     debugger;
+     $('.container').append(this.timerView.render());
+     debugger;
   }
 
 });
