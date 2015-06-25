@@ -43,8 +43,8 @@ io.on('connection', function(socket) {
   socket.on('getTimer', function() {
     if(timer === null) {
       timer = new Timer(300000, { 
-          refreshRateMS: '5000', 
-          almostDoneMS: 290000
+          refreshRateMS: '5000', //set the interval for when savePictureAndReset is called
+          almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
         }); //set new timer for 5 minutes
 
       timer.on('time', function(time) {
@@ -59,7 +59,7 @@ io.on('connection', function(socket) {
       timer.start();
     } 
 
-    io.emit('setTimer', { time: timer.ms }); //emit timer to client
+    io.emit('setTimer', { time: timer.ms }); //emit timer data to client
   });
 
   socket.on('user moved', function(data) {
