@@ -3,9 +3,9 @@ var path = require('path');
 var knex = require('knex')({
   client : 'mysql',
   connection : {
-    host : '127.0.0.1',
+    host : 'mysql://bce4aa9540cd42:3d503e7b@us-cdbr-iron-east-02.cleardb.net/heroku_05d76989f3d1130?reconnect=true',
     user : 'root',
-    //password : '123',
+    password : '123',
     database : 'test', //for now, or making a schema to make a custom local db/open sql to make
     charset : 'utf8',
   }
