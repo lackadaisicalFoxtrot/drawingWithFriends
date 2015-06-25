@@ -5,28 +5,33 @@ var app = app || {};
 app.TimerModel = Backbone.Model.extend({
 
   initialize: function() {
+    //emit event to get value of the timer
     socket.emit('getTimer'); 
+
+    //provide context... Probably a less hack-y way to do this
+    var self = this;
     socket.on('setTimer', function(data) {
-      this.set('timer', new Tock({
+      self.set('timer', new Tock({
         countdown: true,
         startTime: data.time, 
         interval: 1000, 
-        // onStart: this.start, 
-        onTick: this.tick, 
-        onComplete: this.complete
+        onStart: self.start.bind(self), 
+        onTick: self.tick.bind(self), 
+        onComplete: self.complete.bind(self)
       }));
-    });
 
-    //start the timer
-    this.get('timer').start();
+      //start the timer
+      self.set('time', self.get('timer').lap('{MM}:{ss}'));
+      self.get('timer').start();
+    });
   }, 
 
-  updateTime: function() {
-    this.set('time', this.get('timer').lap('{MM}:{ss}'));
-  }
+  start: function() {
+    this.trigger('start', this);
+  },
 
   tick: function() {
-    this.updateTime();
+    this.set('time', this.get('timer').lap('{MM}:{ss}'));
     this.trigger('tick', this);
   }, 
 
