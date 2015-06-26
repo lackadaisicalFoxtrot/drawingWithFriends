@@ -9,6 +9,11 @@ app.AppView = Backbone.View.extend({
        model: this.model.pictureModel,
        container: d3.select('.container')
      });
+
+     this.timerView = new app.TimerView({
+      model: this.model.timerModel
+     });
+     $('.container').append(this.timerView.render());
   }
 
 });
