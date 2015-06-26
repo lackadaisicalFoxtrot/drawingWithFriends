@@ -19,44 +19,42 @@ app.use(express.static(__dirname + '/../client'));
 
 var timer = null;
 
-Lines.add({id:1234, coordinates: [2030,2]});
-Lines.add({id:1434, coordinates: [6,49489]});
+//test lines for debugging backend db stuff
+//Lines.add({id:4949, coordinates: [10,2]});
+//Lines.add({id:6534, coordinates: [7,49]});
 
 //this saves the picture and lines to the db, then clears the Lines collection (that's all!)
 var savePictureAndReset = function(socket) {
   if (Lines.length < 1) return; //for now, since we changed the timer to start even if 
   // the user hasn't drawn, make sure we are not creating a new picture if there are no lines
-  var picture = new Picture({});
-  picture.save().then(function(picture) {
-    //new pic saved to db now, with an id
-    Lines.mapThen(function(model) {
+
+  new Picture({}).save().then(function(picture) { //save first to get a picture id
+    var pic_lines = picture.lines();
+    Lines.mapThen(function(model) { //iter through lines, prepare attributes for saving to db, then save to db with create
       model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
       model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
-      debugger;
-      //model.picture()
-      model.set('picture_id', picture.get('id')); //eww..manual but bookshelf is jakfljaskf;as
+      return pic_lines.create(model.attributes); //eww but trying the bookshelf relation way
 
-      //below shit that doesn't work via bookshelf relations:
-      //return picture.lines().attach(model);
-      //attach or create? create takes model.attributes;
-      //or model.picture() and somehow set the model's picture_id to the current picture.get('id')
-      //model.picture
-      return model.save().then(function(res) {
-        return res;
-      });
+      //Other methods tried:
+      //pic_lines.add(model); //something like this would be nice
+      //model.picture().set('id', picture.get('id')); //another method, less encapsulatey, setting the relationship via the other direction
+      //model.set('picture_id', picture.get('id')); same as above but even more manual and not using bookshelf relationship
+      //return model.save(); //create does this above
+
     }).then(function(res) {
-      console.log('saved pic, then saved lines: ', res);
+      console.log('saved lines ', res);
       Lines.reset();
       //socket.emit('connected', Lines); //client redraws lines (no lines) TODO not called connect anymore
       //timerStarted = false;
       timer = null;
       console.log('set timer to false');
+    }).catch(function(err) {
+      return console.error('error saving all line models to db: ', err);
     });
   }).catch(function(err) {
     return console.error('error saving picture to db: ', err);
   });
 };
-savePictureAndReset();
 
 io.on('connection', function(socket) {
 
@@ -77,7 +75,7 @@ io.on('connection', function(socket) {
 
       timer.on('done', function() {
         //save entire picture to DB
-        //savePictureAndReset(socket); 
+        savePictureAndReset(socket); 
         //timer = null; this needs to be in the saving to db promise because we're doing db stuff
       });
 
