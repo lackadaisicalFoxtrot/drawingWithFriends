@@ -3,7 +3,7 @@ var util = require('./utils');
 var db = require('./db/config');
 var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
-var Picture =require('./db/collections/picture');
+var Picture =require('./db/models/picture');
 var Pictures =require('./db/collections/pictures');
 
 //timer functionality
@@ -52,11 +52,11 @@ io.on('connection', function(socket) {
         }); //set new timer for 5 minutes
 
       timer.on('time', function(time) {
-        savePictureAndReset.bind(null, socket);
       });
 
       timer.on('done', function() {
-        //save entire picture to DB?
+        //save entire picture to DB
+        //savePictureAndReset(socket);
         timer = null;
       });
 
@@ -67,7 +67,7 @@ io.on('connection', function(socket) {
   });
 
   socket.on('user moved', function(data) {
-    console.log('a user drew. their data: ', data); //TODO send model.toJSON() as data to server from client, cleaner?
+    console.log('a user drew. their data: ', data); //TODO send JSON.stringify(model) as data to server from client, cleaner?
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
     //if (!timerStarted) {

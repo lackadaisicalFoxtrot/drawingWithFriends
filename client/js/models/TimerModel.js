@@ -6,12 +6,12 @@ app.TimerModel = Backbone.Model.extend({
 
   initialize: function() {
     //emit event to get value of the timer
-    socket.emit('getTimer'); 
+    socket.emit('getTimer'); //TODO start timer on server upon someone drawing instead of upon seeing the draw/timer view?
 
     //provide context... Probably a less hack-y way to do this
-    var self = this;
     socket.on('setTimer', function(data) {
-      self.set('timer', new Tock({
+      var self = this;
+      this.set('timer', new Tock({
         countdown: true,
         startTime: data.time, 
         interval: 1000, 
@@ -21,9 +21,9 @@ app.TimerModel = Backbone.Model.extend({
       }));
 
       //start the timer
-      self.set('time', self.get('timer').lap('{MM}:{ss}'));
-      self.get('timer').start();
-    });
+      this.set('time', this.get('timer').lap('{MM}:{ss}'));
+      this.get('timer').start();
+    }.bind(this));
   }, 
 
   start: function() {
