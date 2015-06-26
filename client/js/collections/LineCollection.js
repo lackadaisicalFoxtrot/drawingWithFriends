@@ -6,14 +6,10 @@ app.LineCollection = Backbone.Collection.extend({
   model: app.LineModel,
 
   initialize: function() {
-      //this.set(lines);
-    //socket.on('connected', function(lines) { //lines/datas
-      //console.log('redraw all lines');
-      //this.set(lines);
-    //}.bind(this));
     socket.on('got lines', function(lines) { //lines/datas
-      console.log('got lines');
-      this.set(lines);
+      console.log('got lines: ', lines);
+      this.reset();
+      this.set(lines); //should be empty if server lines got wiped
     }.bind(this));
     socket.on('user moved', function(data) { //data is line for these cbs
       console.log('another user moved: ', data);
