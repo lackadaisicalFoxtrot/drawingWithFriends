@@ -4,38 +4,36 @@ var app = app || {};
 
 app.TimerModel = Backbone.Model.extend({
 
+  defaults: { time: '' },
   initialize: function() {
     //emit event to get value of the timer
-    socket.emit('getTimer'); 
+    socket.emit('getTimer'); //get the curr server time if there is one (or else only gets it when server emits setTimer)
 
-    //provide context... Probably a less hack-y way to do this
-    var self = this;
     socket.on('setTimer', function(data) {
-      self.set('timer', new Tock({
+      console.log('settimer');
+      if (!data.time) return this.set('time', 'Be the first to draw!');
+
+      var self = this;
+      //just having a server timer would be more accurate but more expensive for server. 
+      //right now it only live updates the view upon when -any- client -first- loads the view and if anyone is the first to draw
+      this.set('timer', new Tock({ //overlapping tocks may happen when hearing other users' setTimers events, but we just drop the previous tock (no more pointers to prev tock)
         countdown: true,
         startTime: data.time, 
         interval: 1000, 
-        onStart: self.start.bind(self), 
-        onTick: self.tick.bind(self), 
+        onStart: self.update.bind(self),
+        onTick: self.update.bind(self), 
         onComplete: self.complete.bind(self)
       }));
 
-      //start the timer
-      self.set('time', self.get('timer').lap('{MM}:{ss}'));
-      self.get('timer').start();
-    });
+      this.get('timer').start();
+    }.bind(this));
   }, 
 
-  start: function() {
-    this.trigger('start', this);
-  },
-
-  tick: function() {
+  update: function() {
     this.set('time', this.get('timer').lap('{MM}:{ss}'));
-    this.trigger('tick', this);
   }, 
 
   complete: function() {
-    this.trigger('complete');
+    this.set('time', "It's over! Draw again...");
   }
 });

@@ -27,6 +27,7 @@
     "jquery": "~2.1.4",
     "underscore": "~1.8.3",
     "backbone": "~1.2.1",
-    "d3": "~3.5.5"
+    "d3": "~3.5.5",
+    "tock-js": "https://github.com/Falc/Tock.js.git#~2.0.0"
   }
 }

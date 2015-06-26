@@ -2,7 +2,7 @@ var path = require('path');
 
 var knex = require('knex')({
   client : 'mysql',
-  connection : {
+  connection : { //TODO edit this to depend on ENV variable 'production' or not
     host : '127.0.0.1',
     user : 'root',
     //password : '123',
@@ -12,6 +12,7 @@ var knex = require('knex')({
 });
 
 var bookshelf = require('bookshelf')(knex);
+bookshelf.plugin('registry');
 
 bookshelf.knex.schema.hasTable('Picture').then(function (exists) {
   if (!exists) {
@@ -28,7 +29,7 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
     bookshelf.knex.schema.createTable('Line', function (line) {
       line.increments('id').primary();
       line.string('coordinates', 100000); //json
-      line.integer('picture_id');
+      line.integer('picture_id').references('picture.id');
       line.timestamps();
     }).then(function (table) {
       console.log('Created table', table);
