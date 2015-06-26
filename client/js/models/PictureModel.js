@@ -12,7 +12,8 @@ app.PictureModel = Backbone.Model.extend({
 
   dragStarted: function() {
     console.log('drag started');
-    this.set('activeLine', new app.LineModel({id: idHash()}));
+    //this.set('activeLine', new app.LineModel({id: idHash()}));
+    this.set('activeLine', new app.LineModel());
     this.get('lines').add(this.get('activeLine'));
   },
 

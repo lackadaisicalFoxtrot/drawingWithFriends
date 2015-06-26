@@ -8,6 +8,9 @@ app.LineModel = Backbone.Model.extend({
     coordinates: [],
     id: null //don't really need this explicitly. for clarity only
   },
+  initialize: function() {
+    this.set('id', guid());
+  },
 
   updateLine: function(coord) {
     var coordinates = this.get('coordinates').slice();
