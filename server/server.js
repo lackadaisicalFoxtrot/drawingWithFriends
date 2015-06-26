@@ -37,10 +37,10 @@ io.on('connection', function(socket) {
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
 
-    //TODO move timer logic to utils?
-    timer = util.updateTimer(io, timer, function() {
-      util.savePictureAndReset(socket, function() {
-      timer = null; //cb to be fired upon successful saving/resetting
+    //TODO move all timer logic to another file?
+    timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
+      util.savePictureAndReset(socket, function() { //cb to fire upon successful saving/resetting
+      timer = null; 
       });
     });
 
