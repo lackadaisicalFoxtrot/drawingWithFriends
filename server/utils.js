@@ -4,14 +4,42 @@ var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
+//timer functionality
+var Timer = require('timer-stopwatch');
 
-module.exports.sendTimer = function(io, timer) { //send the timer upon (any) client timer mode init (if there is a timer going), or upon user drawing the first line. io.emit to all to keep client timer more up to date
+var sendTimer = function(io, timer) { //send the timer upon (any) client timer mode init (if there is a timer going), or upon user drawing the first line. io.emit to all to keep client timer more up to date
   //if there is no timer going, will emit time: null
+  //console.log('settimer');
   io.emit('setTimer', {time: timer && timer.ms});
 };
 
-//this saves the picture and lines to the db, then clears the Lines collection (that's all!) and sets the timer to null
-module.exports.savePictureAndReset = function(socket) {
+//creates a timer if there is no timer and starts it,
+//emits it to everyone,
+//calls cb when the timer ends,
+//returns the timer
+module.exports.updateTimer = function(io, timer, cb) {
+    if (!timer) {
+      //console.log('no timer');
+      var ms = 300000; //5 min
+      timer = new Timer(10000, { //30 sec
+          refreshRateMS: '1000'
+          //almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
+        });
+
+      //timer.on('time', function(time) {
+      //});
+      timer.on('done', cb);
+      timer.start();
+      sendTimer(io, timer);
+    }
+    return timer;
+};
+
+//saves the picture and lines to the db, then clears the Lines collection
+//emits the resetting to everyone,
+//calls cb after the saving/resetting is successful
+module.exports.savePictureAndReset = function(socket, cb) {
+
   if (Lines.length < 1) return; //make sure we are not creating a new picture if there are no lines. this fn shouldn't be called anyway in that case...
 
   new Picture({}).save().then(function(picture) { //save first to get a picture id
@@ -30,7 +58,8 @@ module.exports.savePictureAndReset = function(socket) {
     }).then(function(res) {
       Lines.reset();
       socket.emit('got lines', Lines); //client redraws lines (no lines) TODO
-      timer = null;
+      cb();
+      //timer = null;
     }).catch(function(err) {
       return console.error('error saving all line models to db: ', err);
     });
@@ -39,5 +68,4 @@ module.exports.savePictureAndReset = function(socket) {
   });
 };
 
-
-
+module.exports.sendTimer = sendTimer;
