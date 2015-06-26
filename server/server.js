@@ -23,7 +23,7 @@ var timer = null;
 //Lines.add({id:4949, coordinates: [10,2]});
 //Lines.add({id:6534, coordinates: [7,49]});
 
-//this saves the picture and lines to the db, then clears the Lines collection (that's all!)
+//this saves the picture and lines to the db, then clears the Lines collection (that's all!) and sets the timer to null
 var savePictureAndReset = function(socket) {
   if (Lines.length < 1) return; //for now, since we changed the timer to start even if 
   // the user hasn't drawn, make sure we are not creating a new picture if there are no lines
@@ -44,7 +44,7 @@ var savePictureAndReset = function(socket) {
     }).then(function(res) {
       console.log('saved lines ', res);
       Lines.reset();
-      //socket.emit('connected', Lines); //client redraws lines (no lines) TODO not called connect anymore
+      socket.emit('got lines', Lines); //client redraws lines (no lines) TODO
       //timerStarted = false;
       timer = null;
       console.log('set timer to false');
@@ -56,15 +56,29 @@ var savePictureAndReset = function(socket) {
   });
 };
 
+var sendTimer = function(socket) { //send the timer upon (any) client timer mode init (if there is a timer going), or upon user drawing the first line. io.emit to all to keep client timer more up to date
+  //if there is no timer going, will emit time: null
+  io.emit('setTimer', {time: timer && timer.ms});
+};
+
 io.on('connection', function(socket) {
 
   socket.on('get lines', function() { //user has requested the lines because the picture view is rendering
-    socket.emit('got lines', Lines); //send the lines every time the user requests it
+    socket.emit('got lines', Lines); //send the lines every time the user requests it (not very efficient, think about having view run in bg so this is only emitted once)
+    //maybe call this set lines to conform
   });
 
   socket.on('getTimer', function() {
-    if(timer === null) {
-      var ms = 300000;
+    sendTimer(socket);
+  });
+
+  socket.on('user moved', function(data) {
+    console.log('a user drew. their data: ', data); //TODO send JSON.stringify(model) as data to server from client, cleaner?
+
+    Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+
+    if (!timer) {
+      var ms = 300000; //5 min
       timer = new Timer(10000, { 
           refreshRateMS: '5000', //??set the interval for when savePictureAndReset is called
           almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
@@ -72,31 +86,21 @@ io.on('connection', function(socket) {
 
       timer.on('time', function(time) {
       });
-
       timer.on('done', function() {
         //save entire picture to DB
         savePictureAndReset(socket); 
-        //timer = null; this needs to be in the saving to db promise because we're doing db stuff
       });
-
       timer.start();
       console.log('timer started');
-    } 
 
-    io.emit('setTimer', { time: timer.ms }); //emit timer data to client
-  });
+      sendTimer(socket);
 
-  socket.on('user moved', function(data) {
-    console.log('a user drew. their data: ', data); //TODO send JSON.stringify(model) as data to server from client, cleaner?
-
-    Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
-    //if (!timerStarted) {
+      //io.emit('setTimer', { time: timer.ms }); //emit timer data to client
       //setTimeout(savePictureAndReset.bind(null, socket), 15000); //every 15 seconds
       //timerStarted = true;
-      //console.log('started timer');
-    //}
-    //setTimeout(saveToDb, 1000*60*5); //save to db every 5 minutes. begin this timer when at least 1 person has started drawing
+    }
 
+    //pseudocode if we decide to id line on the server instead of client
     //if (data.id) { //server has seen line before, it is an existing line someone is drawing
     ////do something 
     //} else { //this is the start of a new line

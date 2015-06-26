@@ -2,7 +2,7 @@ var path = require('path');
 
 var knex = require('knex')({
   client : 'mysql',
-  connection : {
+  connection : { //TODO edit this to depend on ENV variable 'production' or not
     host : '127.0.0.1',
     user : 'root',
     //password : '123',
