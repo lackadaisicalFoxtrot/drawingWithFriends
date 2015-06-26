@@ -5,7 +5,6 @@ var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
 var util = require('./utils');
-var routes = require('./routes');
 
 //timer functionality
 var Timer = require('timer-stopwatch');
@@ -18,7 +17,7 @@ var port = 8080;
 server.listen(port);
 
 app.use(express.static(__dirname + '/../client'));
-require('./routes')(app); //is this how to decorate/inject?
+require('./routes')(app); //is this best way to decorate/dependency inject?
 
 var timer = null;
 
