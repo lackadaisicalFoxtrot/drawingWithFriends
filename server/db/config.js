@@ -28,7 +28,7 @@ bookshelf.knex.schema.hasTable('Line').then(function (exists) {
     bookshelf.knex.schema.createTable('Line', function (line) {
       line.increments('id').primary();
       line.string('coordinates', 100000); //json
-      line.integer('picture_id');
+      line.integer('picture_id').references('picture.id');
       line.timestamps();
     }).then(function (table) {
       console.log('Created table', table);

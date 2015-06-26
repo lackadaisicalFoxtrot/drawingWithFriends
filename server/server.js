@@ -19,24 +19,44 @@ app.use(express.static(__dirname + '/../client'));
 
 var timer = null;
 
+Lines.add({id:1234, coordinates: [2030,2]});
+Lines.add({id:1434, coordinates: [6,49489]});
+
+//this saves the picture and lines to the db, then clears the Lines collection (that's all!)
 var savePictureAndReset = function(socket) {
-  var picture = new Picture();
-  Lines.mapThen(function(model) {
-    model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
-    model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
-    //model.related('picture')
-    //model.picture
-    return model.save().then(function(res) {
-      return res;
+  if (Lines.length < 1) return; //for now, since we changed the timer to start even if 
+  // the user hasn't drawn, make sure we are not creating a new picture if there are no lines
+  var picture = new Picture({});
+  picture.save().then(function(picture) {
+    //new pic saved to db now, with an id
+    Lines.mapThen(function(model) {
+      model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
+      model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
+      debugger;
+      //model.picture()
+      model.set('picture_id', picture.get('id')); //eww..manual but bookshelf is jakfljaskf;as
+
+      //below shit that doesn't work via bookshelf relations:
+      //return picture.lines().attach(model);
+      //attach or create? create takes model.attributes;
+      //or model.picture() and somehow set the model's picture_id to the current picture.get('id')
+      //model.picture
+      return model.save().then(function(res) {
+        return res;
+      });
+    }).then(function(res) {
+      console.log('saved pic, then saved lines: ', res);
+      Lines.reset();
+      //socket.emit('connected', Lines); //client redraws lines (no lines) TODO not called connect anymore
+      //timerStarted = false;
+      timer = null;
+      console.log('set timer to false');
     });
-  }).then(function(res) {
-    console.log('saved lines: ', res);
-    Lines.reset();
-    socket.emit('connected', Lines); //client redraws lines (no lines)
-    timerStarted = false;
-    console.log('set timer to false');
+  }).catch(function(err) {
+    return console.error('error saving picture to db: ', err);
   });
 };
+savePictureAndReset();
 
 io.on('connection', function(socket) {
 
@@ -46,8 +66,9 @@ io.on('connection', function(socket) {
 
   socket.on('getTimer', function() {
     if(timer === null) {
-      timer = new Timer(300000, { 
-          refreshRateMS: '5000', //set the interval for when savePictureAndReset is called
+      var ms = 300000;
+      timer = new Timer(10000, { 
+          refreshRateMS: '5000', //??set the interval for when savePictureAndReset is called
           almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
         }); //set new timer for 5 minutes
 
@@ -56,11 +77,12 @@ io.on('connection', function(socket) {
 
       timer.on('done', function() {
         //save entire picture to DB
-        //savePictureAndReset(socket);
-        timer = null;
+        //savePictureAndReset(socket); 
+        //timer = null; this needs to be in the saving to db promise because we're doing db stuff
       });
 
       timer.start();
+      console.log('timer started');
     } 
 
     io.emit('setTimer', { time: timer.ms }); //emit timer data to client
