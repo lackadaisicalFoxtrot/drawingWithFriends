@@ -3,7 +3,8 @@ var util = require('./utils');
 var db = require('./db/config');
 var Line = require('./db/models/line');
 var Lines = require('./db/collections/lines');
-//var Pictures =require('./db/collections/pictures');
+var Picture =require('./db/collections/picture');
+var Pictures =require('./db/collections/pictures');
 
 //timer functionality
 var Timer = require('timer-stopwatch');
@@ -19,9 +20,12 @@ app.use(express.static(__dirname + '/../client'));
 var timer = null;
 
 var savePictureAndReset = function(socket) {
+  var picture = new Picture();
   Lines.mapThen(function(model) {
     model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
     model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
+    //model.related('picture')
+    //model.picture
     return model.save().then(function(res) {
       return res;
     });
@@ -66,15 +70,21 @@ io.on('connection', function(socket) {
     console.log('a user drew. their data: ', data); //TODO send model.toJSON() as data to server from client, cleaner?
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
+    //if (!timerStarted) {
+      //setTimeout(savePictureAndReset.bind(null, socket), 15000); //every 15 seconds
+      //timerStarted = true;
+      //console.log('started timer');
+    //}
+    //setTimeout(saveToDb, 1000*60*5); //save to db every 5 minutes. begin this timer when at least 1 person has started drawing
 
-    // if (data.id) { //server has seen line before, it is an existing line someone is drawing
-    // //do something 
-    // } else { //this is the start of a new line
-    //   util.serverId(function(id) {
-    //   data.id = id;
-    //   //broadcast with a particular id
-    // });
-
+    //if (data.id) { //server has seen line before, it is an existing line someone is drawing
+    ////do something 
+    //} else { //this is the start of a new line
+    //util.serverId(function(id) {
+    //data.id = id;
+    ////broadcast with a particular id
+    //});
+    //}
     socket.broadcast.emit('user moved', data);
   });
   
