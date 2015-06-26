@@ -25,15 +25,14 @@ var timer = null;
 
 //this saves the picture and lines to the db, then clears the Lines collection (that's all!) and sets the timer to null
 var savePictureAndReset = function(socket) {
-  if (Lines.length < 1) return; //for now, since we changed the timer to start even if 
-  // the user hasn't drawn, make sure we are not creating a new picture if there are no lines
+  if (Lines.length < 1) return; //make sure we are not creating a new picture if there are no lines. this fn shouldn't be called anyway in that case...
 
   new Picture({}).save().then(function(picture) { //save first to get a picture id
     var pic_lines = picture.lines();
     Lines.mapThen(function(model) { //iter through lines, prepare attributes for saving to db, then save to db with create
       model.unset('id', {silent: true}); //silent = don't fire 'change' event. less overhead?
       model.set('coordinates', JSON.stringify(model.get('coordinates'))); //shouldn't stringifcation be automatic on save?? hm
-      return pic_lines.create(model.attributes); //eww but trying the bookshelf relation way
+      return pic_lines.create(model.attributes); //eww exposing model.attr but trying the bookshelf relation way
 
       //Other methods tried:
       //pic_lines.add(model); //something like this would be nice
@@ -42,12 +41,10 @@ var savePictureAndReset = function(socket) {
       //return model.save(); //create does this above
 
     }).then(function(res) {
-      console.log('saved lines ', res);
       Lines.reset();
       socket.emit('got lines', Lines); //client redraws lines (no lines) TODO
       //timerStarted = false;
       timer = null;
-      console.log('set timer to false');
     }).catch(function(err) {
       return console.error('error saving all line models to db: ', err);
     });
@@ -73,13 +70,13 @@ io.on('connection', function(socket) {
   });
 
   socket.on('user moved', function(data) {
-    console.log('a user drew. their data: ', data); //TODO send JSON.stringify(model) as data to server from client, cleaner?
+    //console.log('a user drew. their data: ', data); //TODO send JSON.stringify(model) as data to server from client, cleaner?
 
     Lines.add({id: data.id, coordinates: data.coordinates}, {merge: true});
 
     if (!timer) {
       var ms = 300000; //5 min
-      timer = new Timer(10000, { 
+      timer = new Timer(30000, { //30 sec
           refreshRateMS: '5000', //??set the interval for when savePictureAndReset is called
           almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
         }); //set new timer for 5 minutes
@@ -91,24 +88,9 @@ io.on('connection', function(socket) {
         savePictureAndReset(socket); 
       });
       timer.start();
-      console.log('timer started');
-
+      //console.log('timer started');
       sendTimer(socket);
-
-      //io.emit('setTimer', { time: timer.ms }); //emit timer data to client
-      //setTimeout(savePictureAndReset.bind(null, socket), 15000); //every 15 seconds
-      //timerStarted = true;
     }
-
-    //pseudocode if we decide to id line on the server instead of client
-    //if (data.id) { //server has seen line before, it is an existing line someone is drawing
-    ////do something 
-    //} else { //this is the start of a new line
-    //util.serverId(function(id) {
-    //data.id = id;
-    ////broadcast with a particular id
-    //});
-    //}
     socket.broadcast.emit('user moved', data);
   });
   
@@ -116,9 +98,9 @@ io.on('connection', function(socket) {
     socket.broadcast.emit('user ended', data);
     Lines.get({id: data.id}).set('id', null);
   });
-  socket.on('disconnect', function() {
-    io.emit('user disconnected'); //custom event
-  });
+  //socket.on('disconnect', function() {
+    //io.emit('user disconnected'); //custom event
+  //});
 });
 
 app.route('/gallery')
