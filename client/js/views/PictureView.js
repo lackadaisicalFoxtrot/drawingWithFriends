@@ -46,7 +46,7 @@ app.PictureView = Backbone.View.extend({
     .call(d3.behavior.drag()
           .on("dragstart", this.model.dragStarted.bind(this.model))
           .on("drag", function() {
-            this.model.drag(this.getMouse());
+            this.model.drag(this.getMouse());v
           }.bind(this))
           .on("dragend", this.model.dragEnded.bind(this.model)));
           //like 'events' hash

@@ -19,7 +19,7 @@ app.router = Backbone.Router.extend({
   },
   home : function(){
     $('.container').empty();
-    var homeView= new app.HomeView();
+    var homeView = new app.HomeView();
   },
   draw : function () {
     console.log('running main');
@@ -35,6 +35,8 @@ app.router = Backbone.Router.extend({
     },
   gallery : function(page){
     $('.container').empty();
-    $('.container').append('<h1>GalleryView</h1>');
+    this.picturesView = new app.PicturesView();
+    // $('.container').append('<h1>GalleryView</h1>');
+
   }
 });

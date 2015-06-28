@@ -8,3 +8,8 @@ function guid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 }
+
+// exports.retrieveModels = function(){
+// 	//write mySQL query here 
+// 	//to retrieve completed PictureModels
+// }

@@ -10,6 +10,7 @@ app.LineModel = Backbone.Model.extend({
   },
   initialize: function() {
     this.set('id', guid());
+    //does guid() still need to be written?
   },
 
   updateLine: function(coord) {
