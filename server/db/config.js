@@ -3,7 +3,7 @@ var path = require('path');
 var knex = require('knex')({
   client : 'mysql',
   connection : { //TODO edit this to depend on ENV variable 'production' or not
-    host : 'mysql://b8d9cad8394d54:084a1655@us-cdbr-iron-east-02.cleardb.net/heroku_465a20a3a90550d?reconnect=true',
+    host : 'mysql://b8d9cad8394d54:084a1655@us-cdbr-iron-east-02.cleardb.net/heroku_465a20a3a90550d',
     user : 'root',
     password : '123',
     database : 'test', //for now, or making a schema to make a custom local db/open sql to make
