@@ -39,7 +39,7 @@ io.on('connection', function(socket) {
 
     //TODO move all timer logic to another file?
     timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
-      util.savePictureAndReset(socket, function() { //cb to fire upon successful saving/resetting
+      util.savePictureAndReset(io, function() { //cb to fire upon successful saving/resetting
       timer = null; 
       });
     });
@@ -49,7 +49,8 @@ io.on('connection', function(socket) {
   
   socket.on('user ended', function(data) {
     socket.broadcast.emit('user ended', data);
-    Lines.get({id: data.id}).set('id', null);
+    //Lines.get({id: data.id}).set('id', null);
+    //get rid of edge case problem where user is still drawing when timer ends (Lines reset)
   });
   //socket.on('disconnect', function() {
     //io.emit('user disconnected'); //custom event
