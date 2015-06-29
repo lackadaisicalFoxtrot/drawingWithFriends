@@ -3,23 +3,23 @@ body{
 	height: 100%;
 	width: 100%;
 	padding: 0px;
-	background-color: #E9F0F7;
+	font-family: 'Helvetica Neue', sans-serif;
+	font-weight: 300;
+	color: #222;
 }
 .line {
   fill: none;
-  stroke: #f43377;
+  stroke: #222;
   stroke-width: 3px;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 .nav{
 	float: left;
-	border:3px solid #999;
 	width:20%;
 	height: 100%;
 	overflow: visible;
-	  border-radius: 8px;
-	  margin: 5px;
+  margin: 5px;
 }
 .container{
 	float: left;
@@ -27,18 +27,16 @@ body{
 }
 .canvas {
 	float:left;
-	  border-radius: 8px;
-
-	border: 5px solid #999;
+	border: 1px solid #222;
 	height:500px;
 	width:500px;
 	background-color: #fff;
 }
-li:hover{
-	
-}
-li{
-	border:1px solid #333;
+
+nav li{
+	border: 1px solid #333;
+	margin-top: -1px;
+	margin-bottom: -1px;
 	list-style: none;
 	padding:10px 5px;
 
