@@ -5,7 +5,6 @@ var Lines = require('./db/collections/lines');
 var Picture = require('./db/models/picture');
 var Pictures = require('./db/collections/pictures');
 var util = require('./utils'); //TODO maybe as an injection like routes
-//var Timer = require('timer-stopwatch');
 
 
 var app = express();
@@ -18,9 +17,6 @@ app.use(express.static(__dirname + '/../client'));
 require('./routes')(app); //is this best way to decorate/dependency inject?
 
 var timer = null;
-//test lines for debugging backend db stuff
-//Lines.add({id:4949, coordinates: [10,2]});
-//Lines.add({id:6534, coordinates: [7,49]});
 
 io.on('connection', function(socket) {
   //TODO rename these events without spaces etc
