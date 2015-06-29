@@ -7,11 +7,18 @@ app.PictureView = Backbone.View.extend({
   className: 'canvas',
 
   initialize: function(options){
+    //this.options = options;
     this.render(options);
     //TODO another listener for empty lines = delete all lineview subviews
     //we currently have no way to delete lineviews added
     //and we also only listen to additions of lines
     socket.emit('get lines');
+    this.model.get('lines').on('reset', function(options) {
+      //TODO tell each line view to remove itself, or mass remove like so:
+      //debugger;
+      this.render(options);
+      //this.d3;
+    }.bind(this, options));
     this.model.get('lines').on('add', function(line) {
       this.renderLine(line);
     }, this);
@@ -36,6 +43,10 @@ app.PictureView = Backbone.View.extend({
 
   render: function(options) {
     //TODO all these d3 elems could probably be refactored to be more like $el--attempted but views didn't render correctly
+
+    //for line reset render: if the svg element is present, remove it
+    if (this.d3) this.d3.remove();
+
     this.d3 = options.container
     .append(this.tagName)
     .attr({

@@ -38,7 +38,7 @@ module.exports.updateTimer = function(io, timer, cb) {
 //saves the picture and lines to the db, then clears the Lines collection
 //emits the resetting to everyone,
 //calls cb after the saving/resetting is successful
-module.exports.savePictureAndReset = function(socket, cb) {
+module.exports.savePictureAndReset = function(io, cb) {
 
   if (Lines.length < 1) return; //make sure we are not creating a new picture if there are no lines. this fn shouldn't be called anyway in that case...
 
@@ -57,7 +57,7 @@ module.exports.savePictureAndReset = function(socket, cb) {
 
     }).then(function(res) {
       Lines.reset();
-      socket.emit('got lines', Lines); //client redraws lines (no lines) TODO
+      io.emit('got lines', Lines); //all clients redraws lines (no lines) TODO
       cb();
       //timer = null;
     }).catch(function(err) {
