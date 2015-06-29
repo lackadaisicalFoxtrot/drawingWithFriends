@@ -73,6 +73,7 @@ header{
 
 /* timer styling */
 .timerContainer h2 {
+  margin: 0;
 	font-weight: 200;
 	font-size: 3em;
 }

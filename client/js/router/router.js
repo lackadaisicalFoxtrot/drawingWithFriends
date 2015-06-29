@@ -16,9 +16,13 @@ app.router = Backbone.Router.extend({
     var homeView = new app.HomeView();
   },
   draw : function () {
-    console.log('running main');
+    //console.log('running main');
     $('.container').empty();
     //$('.color-picker').empty();
+    //if (this.appView) {
+      //this.appView.remove();
+      //debugger;
+    //}
     this.appView = new app.AppView({model: this.appModel});
     //render the view when user goes to draw tab
     //var picture = new app.PictureView({
