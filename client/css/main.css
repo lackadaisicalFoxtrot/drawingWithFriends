@@ -35,8 +35,8 @@ nav{
 .canvas {
 	float:left;
 	border: 3px solid #333;
-	height:700px;
-	width:700px;
+	height:600px;
+	width:600px;
 	background-color: #fff;
 }
 li {
