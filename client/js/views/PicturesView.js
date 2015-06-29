@@ -4,19 +4,29 @@ var app = app || {};
 
 app.PicturesView = Backbone.View.extend({
   el : $('ul.gallery-list'),
+  tagName: 'svg',
+  className: 'canvas',
   collection : app.PicturesCollection,
-  modelView : app.PictureView, //TODO I think you only need the collection.
 
   initialize : function() {
     this.collection = new app.PicturesCollection();
-    this.render();
+    //solving our async problems with set timeout is the most hackey hackish thing I have ever done
+    setTimeout(this.render.bind(this), 500);
+
   },
   render : function () {
     this.$el.detach();
-    this.$el.html('').append(
-      this.collection.map(function(picture){
-        return new app.PictureView({model: picture}).render();
-      })
-      );
+
+    this.container = d3.select('.container');
+    var data = this.collection.modelData;
+
+    for (var pic in data){
+      this.container.append(this.tagName)
+      .attr({
+        'class': this.className,
+        width: 500,
+        height: 500
+      });
+    }
   }
 });
