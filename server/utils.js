@@ -21,7 +21,7 @@ module.exports.updateTimer = function(io, timer, cb) {
     if (!timer) {
       //console.log('no timer');
       var ms = 300000; //5 min
-      timer = new Timer(10000, { //30 sec
+      timer = new Timer(30000, { //30 sec
           refreshRateMS: '1000'
           //almostDoneMS: 290000 //this will emit an event when the timer is almost done ... probably not necessary, TODO - get rid of this if we don't use it
         });
