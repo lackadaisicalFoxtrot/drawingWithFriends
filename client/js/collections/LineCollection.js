@@ -7,16 +7,16 @@ app.LineCollection = Backbone.Collection.extend({
 
   initialize: function() {
     socket.on('got lines', function(lines) { //lines/datas
-      console.log('got lines: ', lines);
+      //console.log('got lines: ', lines);
       this.reset();
       this.set(lines); //should be empty if server lines got wiped
     }.bind(this));
     socket.on('user moved', function(data) { //data is line for these cbs
-      console.log('another user moved: ', data);
+      //console.log('another user moved: ', data);
       this.updateLines(data);
     }.bind(this));
     socket.on('user ended', function(data) {
-      console.log('another user ended their line: ', data);
+      //console.log('another user ended their line: ', data);
       this.updateLines(data);
     }.bind(this));
   },
