@@ -7,8 +7,10 @@ app.HomeView = Backbone.View.extend({
     this.render();
   },
   render : function () {
-    this.$el.detach();
+    //this.$el.detach();
     $('.container')
-    .append('<div class="home"><h1> Drawing With Friends</h1><p> Join friends and strangers in creating a sketch. Will you draw a cat, a house, the Mona Lisa? Click below to start drawing</p><a href="#draw">Draw</a></div>');
+    .append("<p> Join friends and strangers in creating a sketch.</p> \
+            <p>Create a masterpiece as fast as you can before it's immortalized in our gallery. \
+            </p>");
   }
 });

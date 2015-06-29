@@ -5,12 +5,7 @@ var app = app || {};
 
 $(function() {
   //TODO can these be put in the view please
-  $('.item').toggle();
-  //TODO these can be grouped together
-  $('.menu-li').on('click',function(event){
-    $('.item').toggle();
-  });
-  $('.item').click(function(event){
+  $('.item, .menu-li').click(function(e){
     $('.item').toggle();
   });
   var router = new app.router();
