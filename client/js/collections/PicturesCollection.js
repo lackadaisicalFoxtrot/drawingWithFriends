@@ -4,6 +4,7 @@
 var app = app || {};
 
 app.PicturesCollection = Backbone.Collection.extend({
+  //model: app.Picture,
 
 	initialize : function(){
 		socket.emit('gallery needed');
@@ -20,6 +21,7 @@ app.PicturesCollection = Backbone.Collection.extend({
 			}
 			this.modelData[line.picture_id].push(line.coordinates);
 		}, this);
+    this.trigger('processed'); //listener to bubbleup to view
     //do something like the below but without the event listeners/'lite' version
     //var picture = new app.PictureModel();
     //picture.get('lines').add etc

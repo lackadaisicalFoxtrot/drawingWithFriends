@@ -11,6 +11,7 @@ app.router = Backbone.Router.extend({
     this.appModel = new app.AppModel(); //the 'app' is the drawing portion of the app
   },
   home : function(){
+    //TODO refactor all these container emptys
     $('.container').empty();
     //$('.color-picker').empty();
     var homeView = new app.HomeView();
@@ -34,8 +35,8 @@ app.router = Backbone.Router.extend({
     },
   gallery : function(page){
     $('.container').empty();
-
-    this.picturesView = new app.PicturesView();
+    this.picturesCollection = new app.PicturesCollection();
+    this.picturesView = new app.PicturesView({collection: this.picturesCollection});
 
   }
 });
