@@ -39,7 +39,7 @@ module.exports.updateTimer = function(io, timer, cb) {
 //emits the resetting to everyone,
 //calls cb after the saving/resetting is successful
 module.exports.savePictureAndReset = function(io, cb) {
-
+  console.log('trying to save');
   if (Lines.length < 1) return; //make sure we are not creating a new picture if there are no lines. this fn shouldn't be called anyway in that case...
 
   new Picture({}).save().then(function(picture) { //save first to get a picture id
