@@ -10,7 +10,7 @@ var Timer = require('timer-stopwatch');
 var sendTimer = function(io, timer) { //send the timer upon (any) client timer mode init (if there is a timer going), or upon user drawing the first line. io.emit to all to keep client timer more up to date
   //if there is no timer going, will emit time: null
   //console.log('settimer');
-  io.emit('setTimer', {time: timer || timer.ms});
+  io.emit('setTimer', {time: timer && timer.ms});
 };
 
 //creates a timer if there is no timer and starts it,
