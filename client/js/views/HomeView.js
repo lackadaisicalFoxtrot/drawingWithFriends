@@ -9,7 +9,7 @@ app.HomeView = Backbone.View.extend({
   render : function () {
     //this.$el.detach();
     $('.container')
-    .append("<p> Join friends and strangers in creating a sketch.</p> \
+    .append("<p> Join friends and strangers in creating a speed sketch.</p> \
             <p>Create a masterpiece as fast as you can before it's immortalized in our gallery. \
             </p>");
   }
