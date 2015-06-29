@@ -60,8 +60,9 @@ io.on('connection', function(socket) {
   //});
 
   socket.on('gallery needed', function(){
-    console.log('server has received gallery populate event from client');
-    socket.emit('gallery served', utils.retrievePictureModels)
+    ///console.log('server has received gallery populate event from client');
+    //console.log(util.retrievePictureModels());
+    util.retrievePictureModels(socket);
   });
 
 });

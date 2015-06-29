@@ -11,11 +11,12 @@ app.PicturesCollection = Backbone.Collection.extend({
 		//PicturesView.js--> 
 		//emmits 'gallery needed' events to server on initiliazation 
 		console.log('PicturesCollection has been initialized');
-		
+
 		socket.emit('gallery needed');
 		socket.on('gallery served', function(data){
 			//this.createGallery(data)
 			//the below is for testing purposes
+			
 			console.log(data);
 		})
 
