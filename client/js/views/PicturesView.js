@@ -25,13 +25,15 @@ app.PicturesView = Backbone.View.extend({
     //var ul = d3.select(el);
     var ul = d3.select('.container'); //TODO eww
     var pictures = this.collection.modelData;
-    _.each(pictures, function(picture) {
+    var pic_ids = Object.keys(pictures).reverse();
+    _.each(pic_ids, function(pic_id) {
       var svg = ul.append('li').append('svg')
       .attr({
         'class': 'canvas',
         width: 500,
         height: 500
       });
+      var picture = pictures[pic_id];
       _.each(picture, function(line) {
         //console.log(JSON.parse(line));
         var line = svg.append('path')
