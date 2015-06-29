@@ -15,6 +15,11 @@ app.PicturesView = Backbone.View.extend({
     return _.sample(firstWord) + ' ' + _.sample(secondWord) + '.';
   },
 
+  generateColor: function() {
+    var colors = ['red'];
+    return _.sample(color);
+  },
+
   svgLine: d3.svg.line()
   .x(function(d) { return d[0]; })
   .y(function(d) { return d[1]; })
@@ -41,7 +46,10 @@ app.PicturesView = Backbone.View.extend({
           height: 500
         });
       
-      li.append('h2').text(this.generatePhrase());
+      li.append('h2').text(this.generatePhrase())
+                     .style({
+                      'color' : this.generateColor()
+                     });
 
       var picture = pictures[pic_id];
       _.each(picture, function(line) {
