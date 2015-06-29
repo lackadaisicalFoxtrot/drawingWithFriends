@@ -3,10 +3,10 @@ var path = require('path');
 var knex = require('knex')({
   client : 'mysql',
   connection : { //TODO edit this to depend on ENV variable 'production' or not
-    host : 'mysql://bb33dcf0b604fc:f114a5cb@us-cdbr-iron-east-02.cleardb.net/heroku_a4f983e634a4cb1?reconnect=true',
-    user : 'root',
-    password : '123',
-    database : 'test', //for now, or making a schema to make a custom local db/open sql to make
+    host : 'us-cdbr-iron-east-02.cleardb.net',
+    user : 'bb33dcf0b604fc',
+    password : 'f114a5cb',
+    database : 'heroku_a4f983e634a4cb1', //for now, or making a schema to make a custom local db/open sql to make
     charset : 'utf8',
   }
 });
