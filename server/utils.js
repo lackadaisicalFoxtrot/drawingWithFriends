@@ -75,8 +75,9 @@ module.exports.retrievePictureModels = function(socket){
 
   //OR
 
-  new Line({}).fetch().then(function(pictures){
+  new Line({}).fetchAll().then(function(pictures){
     socket.emit('gallery served', pictures)
+    //console.log(pictures);
   })
 
   //
