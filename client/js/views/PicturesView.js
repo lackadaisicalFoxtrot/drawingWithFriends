@@ -8,6 +8,7 @@ app.PicturesView = Backbone.View.extend({
   modelView : app.PictureView, //TODO I think you only need the collection.
 
   initialize : function() {
+    this.collection = new app.PicturesCollection();
     this.render();
   },
   render : function () {

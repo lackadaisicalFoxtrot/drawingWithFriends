@@ -69,7 +69,9 @@ module.exports.savePictureAndReset = function(io, cb) {
 };
 
 module.exports.retrievePictureModels = function(){
-
+  //loop through all lines in DB
+  //find all lines which have the same picture ID
+  //populate arrays, which represent completed pictures, with lines which match those pictures
 };
 
 module.exports.sendTimer = sendTimer;
