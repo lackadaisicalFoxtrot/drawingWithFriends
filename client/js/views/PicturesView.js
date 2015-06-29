@@ -29,8 +29,8 @@ app.PicturesView = Backbone.View.extend({
       var svg = ul.append('li').append('svg')
       .attr({
         'class': 'canvas',
-        width: 500,
-        height: 500
+        width: 600,
+        height: 600
       });
       var picture = pictures[pic_id];
       _.each(picture, function(line) {
