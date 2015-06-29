@@ -43,6 +43,10 @@ app.PictureView = Backbone.View.extend({
 
   render: function(options) {
     //TODO all these d3 elems could probably be refactored to be more like $el--attempted but views didn't render correctly
+
+    //for line reset render: if the svg element is present, remove it
+    if(this.d3) this.d3.remove();
+
     this.d3 = options.container
     .append(this.tagName)
     .attr({
