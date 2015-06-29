@@ -5,13 +5,15 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-  <nav class='nav hidden'>
+  <header><h1>Drawing With Friends</h1></header>
+  <nav class='nav'>
     <ul>
       <li class='menu-li'>Menu</li>
       <li class='item'><a href='#'>Home</a></li>
       <li class='item'><a href='#draw'>Draw</a></li>
-      <li class='item'><a href='/#gallery'>Gallery</a></li>
+      <li class='item'><a href='#gallery'>Gallery</a></li>
     </ul>
+    <form name='color-picker' class='color-picker'></form>
   </nav>
   <!-- Canvas container-->
   <div class='container'></div>
@@ -45,6 +47,8 @@
   <script type="text/javascript" src="js/views/PictureView.js"></script>
   <script type="text/javascript" src="js/views/LineView.js"></script>
   <script type="text/javascript" src="js/views/TimerView.js"></script>
+  <script type="text/javascript" src="js/views/ColorPickerView.js"></script>
+
 
   <!-- App Instantiation -->
   <script type="text/javascript" src="js/app.js"></script>

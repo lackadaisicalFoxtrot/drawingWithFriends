@@ -19,11 +19,13 @@ app.router = Backbone.Router.extend({
   },
   home : function(){
     $('.container').empty();
+    $('.color-picker').empty();
     var homeView= new app.HomeView();
   },
   draw : function () {
     console.log('running main');
     $('.container').empty();
+    $('.color-picker').empty();
     this.appView = new app.AppView({model: this.appModel});
     //render the view when user goes to draw tab
     //var picture = new app.PictureView({
@@ -35,6 +37,8 @@ app.router = Backbone.Router.extend({
     },
   gallery : function(page){
     $('.container').empty();
+    $('.color-picker').empty();
+    
     $('.container').append('<h1>GalleryView</h1>');
   }
 });
