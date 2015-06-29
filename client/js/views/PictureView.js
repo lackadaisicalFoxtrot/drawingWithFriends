@@ -7,7 +7,6 @@ app.PictureView = Backbone.View.extend({
   className: 'canvas',
 
   initialize: function(options){
-    //this.options = options;
     this.render(options);
     //TODO another listener for empty lines = delete all lineview subviews
     //we currently have no way to delete lineviews added
@@ -15,7 +14,6 @@ app.PictureView = Backbone.View.extend({
     socket.emit('get lines');
     this.model.get('lines').on('reset', function(options) {
       //TODO tell each line view to remove itself, or mass remove like so:
-      //debugger;
       this.render(options);
       //this.d3;
     }.bind(this, options));
