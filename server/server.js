@@ -51,5 +51,10 @@ io.on('connection', function(socket) {
   //socket.on('disconnect', function() {
     //io.emit('user disconnected'); //custom event
   //});
+
+  socket.on('gallery needed', function(){
+    socket.broadcast.emit('gallery served', /*utils.getModelsFromDB*/)
+  });
+  
 });
 

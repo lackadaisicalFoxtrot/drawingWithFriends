@@ -68,4 +68,8 @@ module.exports.savePictureAndReset = function(io, cb) {
   });
 };
 
+module.exports.retrievePictureModels = function(){
+
+};
+
 module.exports.sendTimer = sendTimer;
