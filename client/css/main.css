@@ -70,3 +70,9 @@ header{
 	font-size: 18px;
   margin-left: 250px;
 }
+
+/* timer styling */
+.timerContainer h2 {
+	font-weight: 200;
+	font-size: 3em;
+}
