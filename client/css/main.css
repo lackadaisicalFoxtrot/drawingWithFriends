@@ -33,7 +33,7 @@ body{
 	background-color: #fff;
 }
 
-nav li{
+nav li {
 	border: 1px solid #333;
 	margin-top: -1px;
 	margin-bottom: -1px;
@@ -41,16 +41,19 @@ nav li{
 	padding:10px 5px;
 
 }
-ul{
+
+ul {
 	padding: 10px;
 }
+
 a:visited{
 	color: #000;
 }
+
 a:active{
 	color: #000;
-
 }
+
 .color-picker{
 	padding: 0;
 	margin: 3px;
@@ -66,4 +69,10 @@ header{
 	width:51%;
 	border: 3px none #999;
 	padding-left: 250px;
+}
+
+/* timer styling */
+.timerContainer h2 {
+	font-weight: 200;
+	font-size: 3em;
 }
