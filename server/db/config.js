@@ -13,8 +13,7 @@ var knex = require('knex')({
 
 var bookshelf = require('bookshelf')(knex);
 bookshelf.plugin('registry');
-bookshelf.knex.raw('DROP TABLE Picture');
-bookshelf.knex.raw('DROP TABLE Line');
+
 
 bookshelf.knex.schema.hasTable('Picture').then(function (exists) {
   if (!exists) {
