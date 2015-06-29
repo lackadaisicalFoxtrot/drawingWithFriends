@@ -30,8 +30,8 @@ app.router = Backbone.Router.extend({
     },
   gallery : function(page){
     $('.container').empty();
-    //$('.color-picker').empty();
-    
-    $('.container').append('<h1>GalleryView</h1>');
+
+    this.picturesView = new app.PicturesView();
+
   }
 });
