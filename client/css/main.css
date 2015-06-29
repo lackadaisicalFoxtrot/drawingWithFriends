@@ -7,8 +7,12 @@ body{
 	font-weight: 300;
 	color: #222;
 }
+h1 {
+  font-weight: lighter;
+}
 a {
   text-decoration: none;
+  color: #222;
 }
 .line {
   fill: none;
@@ -19,10 +23,10 @@ a {
 }
 nav{
 	float: left;
-	width:20%;
-	height: 100%;
-	overflow: visible;
+  width: 150px;
+  text-align: center;
   margin: 5px;
+  margin-right: 20px;
 }
 .container{
 	float: left;
@@ -30,7 +34,7 @@ nav{
 }
 .canvas {
 	float:left;
-	border: 1px solid #222;
+	border: 3px solid #333;
 	height:500px;
 	width:500px;
 	background-color: #fff;
@@ -39,32 +43,30 @@ nav{
 nav li{
 	border-top: 1px solid #333;
 	list-style: none;
-	padding:10px 5px;
-
+	/*padding:10px 5px;*/
 }
-ul{
-	padding: 10px;
+nav li a{
+  padding: 10px;
+  display: block;
 }
-a:visited{
-	color: #000;
+nav li a:hover {
+  color: #fff;
 }
-a:active{
-	color: #000;
-
+li:hover{
+  background-color: #ccccff;
 }
-.color-picker{
-	padding: 0;
-	margin: 3px;
+nav li:first-child{
+  border: 0;
 }
-select{
-	margin-left: 15px;
-	margin-bottom: 5px;
-}
+/*.color-picker{*/
+	/*padding: 0;*/
+	/*margin: 3px;*/
+/*}*/
+/*select{*/
+	/*margin-left: 15px;*/
+	/*margin-bottom: 5px;*/
+/*}*/
 header{
-	border-radius: 8px;
 	font-size: 18px;
-	text-align: left;
-	width:51%;
-	border: 3px none #999;
-	padding-left: 250px;
+  margin-left: 250px;
 }
