@@ -8,6 +8,13 @@ app.PicturesView = Backbone.View.extend({
   tagName: 'ul',
   collection : app.PicturesCollection,
 
+  generatePhrase: function() {
+    var firstWord = ['so', 'wow', 'such', 'much', 'amazing', 'brilliant', 'wonderful', 'very'];
+    var secondWord = ['drawing', 'painting', 'masterpiece', 'art', 'genius', 'abstract', 'impressionism', 'passion', 'da Vinci', 'Picasso'];
+
+    return _.sample(firstWord) + ' ' + _.sample(secondWord) + '.';
+  },
+
   svgLine: d3.svg.line()
   .x(function(d) { return d[0]; })
   .y(function(d) { return d[1]; })
@@ -26,12 +33,16 @@ app.PicturesView = Backbone.View.extend({
     var pictures = this.collection.modelData;
     var pic_ids = Object.keys(pictures).reverse();
     _.each(pic_ids, function(pic_id) {
-      var svg = ul.append('li').append('svg')
-      .attr({
-        'class': 'canvas',
-        width: 500,
-        height: 500
-      });
+      var li = ul.append('li')
+      var svg = li.append('svg')
+        .attr({
+          'class': 'canvas',
+          width: 500,
+          height: 500
+        });
+      
+      li.append('h2').text(this.generatePhrase());
+
       var picture = pictures[pic_id];
       _.each(picture, function(line) {
         //console.log(JSON.parse(line));
@@ -41,6 +52,7 @@ app.PicturesView = Backbone.View.extend({
         line.attr('d', this.svgLine);
       }, this);
     }, this);
+
     //$('.container').append($el);
   }
 });
