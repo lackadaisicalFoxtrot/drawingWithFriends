@@ -1,4 +1,5 @@
 //PicturesView.js
+//TODO this file is pretty bad
 
 var app = app || {};
 
@@ -13,14 +14,12 @@ app.PicturesView = Backbone.View.extend({
   .interpolate('basis'),
 
   initialize : function() {
-    //this.collection = new app.PicturesCollection();
-    //solving our async problems with set timeout is the most hackey hackish thing I have ever done
+    $('.container').text('loading...');
     this.collection.on('processed', this.render, this);
-    //setTimeout(this.render.bind(this), 500);
 
   },
   render : function () {
-    //TODO this makes me uncomfortable
+    $('.container').empty();
 
     //var ul = d3.select(el);
     var ul = d3.select('.container'); //TODO eww
