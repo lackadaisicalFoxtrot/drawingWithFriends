@@ -7,6 +7,9 @@ body{
 	font-weight: 300;
 	color: #222;
 }
+a {
+  text-decoration: none;
+}
 .line {
   fill: none;
   stroke: #222;
@@ -14,7 +17,7 @@ body{
   stroke-linejoin: round;
   stroke-linecap: round;
 }
-.nav{
+nav{
 	float: left;
 	width:20%;
 	height: 100%;
@@ -34,9 +37,7 @@ body{
 }
 
 nav li{
-	border: 1px solid #333;
-	margin-top: -1px;
-	margin-bottom: -1px;
+	border-top: 1px solid #333;
 	list-style: none;
 	padding:10px 5px;
 
