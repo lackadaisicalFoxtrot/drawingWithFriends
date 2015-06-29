@@ -10,7 +10,6 @@ app.PicturesCollection = Backbone.Collection.extend({
 		socket.on('gallery served', function(data){
 			this.processDbLines(data);
 		}.bind(this));
-
 	},
 
 	processDbLines : function(lines){
@@ -21,8 +20,10 @@ app.PicturesCollection = Backbone.Collection.extend({
 			}
 			this.modelData[line.picture_id].push(line.coordinates);
 		}, this);
+    //do something like the below but without the event listeners/'lite' version
+    //var picture = new app.PictureModel();
+    //picture.get('lines').add etc
+    //this.add(picture);
 	}
-	
-
 
 });
