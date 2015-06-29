@@ -18,7 +18,13 @@ require('./routes')(app); //is this best way to decorate/dependency inject?
 
 var timer = null;
 
+
+
 io.on('connection', function(socket) {
+
+  //the below is for test purposes
+  //util.retrievePictureModels();
+
   //TODO rename these events without spaces etc
   socket.on('get lines', function() { //user has requested the lines because the picture view is rendering
     socket.emit('got lines', Lines); //send the lines every time the user requests it (not very efficient, think about having view run in bg so this is only emitted once)
@@ -37,6 +43,7 @@ io.on('connection', function(socket) {
     timer = util.updateTimer(io, timer, function() { //cb to fire when timer ends
       util.savePictureAndReset(io, function() { //cb to fire upon successful saving/resetting
       timer = null; 
+
       });
     });
 
@@ -51,5 +58,12 @@ io.on('connection', function(socket) {
   //socket.on('disconnect', function() {
     //io.emit('user disconnected'); //custom event
   //});
+
+  socket.on('gallery needed', function(){
+    ///console.log('server has received gallery populate event from client');
+    //console.log(util.retrievePictureModels());
+    util.retrievePictureModels(socket);
+  });
+
 });
 

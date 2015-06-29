@@ -68,4 +68,19 @@ module.exports.savePictureAndReset = function(io, cb) {
   });
 };
 
+module.exports.retrievePictureModels = function(socket){
+  //loop through all lines in DB
+  //find all lines which have the same picture ID
+  //populate arrays, which represent completed pictures, with lines which match those pictures
+
+  //OR
+
+  new Line({}).fetchAll().then(function(pictures){
+    socket.emit('gallery served', pictures)
+    //console.log(pictures);
+  })
+
+  //
+};
+
 module.exports.sendTimer = sendTimer;
