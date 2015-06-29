@@ -11,19 +11,19 @@ app.PictureModel = Backbone.Model.extend({
   },
 
   dragStarted: function() {
-    console.log('drag started');
+    //console.log('drag started');
     //this.set('activeLine', new app.LineModel({id: idHash()}));
     this.set('activeLine', new app.LineModel());
     this.get('lines').add(this.get('activeLine'));
   },
 
   drag: function(mouseCoord) {
-    console.log('drag');
+    //console.log('drag');
     this.get('activeLine').updateLine(mouseCoord);
   },
 
   dragEnded: function() {
-    console.log('dragend');
+    //console.log('dragend');
     this.get('activeLine').endLine();
     this.set('activeLine', null);
   },
