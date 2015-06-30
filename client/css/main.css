@@ -63,7 +63,7 @@ nav li a{
 nav li a:hover {
   color: #fff;
 }
-li:hover{
+nav li:hover{
   background-color: #ccccff;
 }
 nav li:first-child{

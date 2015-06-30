@@ -36,6 +36,10 @@ app.PicturesView = Backbone.View.extend({
 
     //var ul = d3.select(el);
     var ul = d3.select('.container'); //TODO eww
+    //everything uses container and it's not very encapsulatey-
+    //when the 'got lines' is emitted from the server we rerender and the
+    //various views hear it (even if it's not the correct view)
+    //see Pictureview.js 'backbone history fragment' fix
     var pictures = this.collection.modelData;
     var pic_ids = Object.keys(pictures).reverse();
     _.each(pic_ids, function(pic_id) {
@@ -47,8 +51,6 @@ app.PicturesView = Backbone.View.extend({
         width: 600,
         height: 600
       });
-
-
 
       var picture = pictures[pic_id];
       _.each(picture, function(line) {
