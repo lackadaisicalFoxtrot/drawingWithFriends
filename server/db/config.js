@@ -2,7 +2,7 @@ var path = require('path');
 
 var knex = require('knex')({
   client : 'mysql',
-  connection : { //TODO edit this to depend on ENV variable 'production' or not
+  connection : { //TODO edit this to depend on ENV variable 'production' or not, this isn't very safe
     host : 'us-cdbr-iron-east-02.cleardb.net',
     user : 'bb33dcf0b604fc',
     password : 'f114a5cb',
