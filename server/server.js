@@ -18,8 +18,6 @@ require('./routes')(app); //is this best way to decorate/dependency inject?
 
 var timer = null;
 
-
-
 io.on('connection', function(socket) {
 
   //the below is for test purposes

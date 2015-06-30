@@ -5,7 +5,7 @@ app.router = Backbone.Router.extend({
     '' : 'home',
     'draw' : 'draw',
     'gallery' : 'gallery',
-    'gallery/:page' : 'gallery'
+    'gallery/:page' : 'gallery' //TODO ????
   },
   initialize: function(){
     this.appModel = new app.AppModel(); //the 'app' is the drawing portion of the app
