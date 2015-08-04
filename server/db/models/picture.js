@@ -1,5 +1,5 @@
 var db = require('../config');
-require('./line'); //don't need to assign to var as we're using bookshelf registry to avoid circular referencing
+require('./line');
 
 var Picture = db.Model.extend({
   tableName: 'Picture',
@@ -9,4 +9,4 @@ var Picture = db.Model.extend({
   }
 });
 
-module.exports = db.model('Picture', Picture); //circular referencing break
+module.exports = db.model('Picture', Picture);

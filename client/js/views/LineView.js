@@ -1,15 +1,11 @@
 // views/LineView.js
-// TODO refactor
-
 var app = app || {};
 
 app.LineView = Backbone.View.extend({
-  tagName: 'path', 
-  className: 'line', 
+  tagName: 'path',
+  className: 'line',
 
   initialize: function(options) {
-    //initialize the view with the data from LineModel, append it to parent container
-    //TODO refactor into 1 render
     this.render(options);
     this.renderPath();
 
